@@ -19,6 +19,7 @@ if (res.status !== 0) {
 
 const mustExist = [
   'AGENTS.md',
+  'GETTING-STARTED.md',
   'CLAUDE.md',
   '.gitignore',
   '.agents/skills/sprint-planning.md',
@@ -50,6 +51,31 @@ const sprint = fs.readFileSync(path.join(target, 'scrum', 'sprints', '_template.
 if (!sprint.includes('{{SPRINT_NUMBER}}')) {
   throw new Error('sprint template placeholders must survive scaffolding');
 }
+
+const started = fs.readFileSync(path.join(target, 'GETTING-STARTED.md'), 'utf8');
+if (started.includes('<!-- BEGIN:') || started.includes('{{PROJECT_NAME}}')) {
+  throw new Error('GETTING-STARTED.md not fully rendered');
+}
+
+// --help must print usage and exit 0 without scaffolding anything.
+const help = spawnSync(process.execPath, [path.join(root, 'bin', 'cli.js'), '--help'], {
+  encoding: 'utf8',
+});
+if (help.status !== 0 || !help.stdout.includes('Usage:')) throw new Error('--help is broken');
+
+// Scaffolding into a dir with existing files must keep them untouched.
+const existing = fs.mkdtempSync(path.join(os.tmpdir(), 'caw-existing-'));
+fs.writeFileSync(path.join(existing, '.gitignore'), 'SENTINEL\n');
+const over = spawnSync(
+  process.execPath,
+  [path.join(root, 'bin', 'cli.js'), existing, '--yes', '--offline', '--no-git'],
+  { encoding: 'utf8' }
+);
+if (over.status !== 0) throw new Error('scaffold into existing dir failed');
+if (fs.readFileSync(path.join(existing, '.gitignore'), 'utf8') !== 'SENTINEL\n') {
+  throw new Error('existing .gitignore was overwritten');
+}
+fs.rmSync(existing, { recursive: true, force: true });
 
 // Re-run against the same directory must refuse to overwrite.
 const rerun = spawnSync(

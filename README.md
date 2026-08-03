@@ -4,6 +4,10 @@ Scaffold a complete, **harness-agnostic agentic workspace** into any new project
 with Claude Code (Fable 5), OpenCode (Kimi K3 or any model), and every
 AGENTS.md-compatible tool.
 
+**New to AI coding agents?** Everything here is beginner-friendly: the scaffolder asks
+plain questions, and the generated project includes a `GETTING-STARTED.md` written for
+humans who have never used an agent before.
+
 One interactive command gives you:
 
 - **`AGENTS.md` as single source of truth** — harness files (`CLAUDE.md`,
@@ -22,28 +26,57 @@ One interactive command gives you:
   [Ponytail](https://github.com/dietrichgebert/ponytail) (minimal-code discipline) and
   [Graphify](https://github.com/Graphify-Labs/graphify) (codebase knowledge graph).
 
-## Usage
+## Prerequisites
+
+| Tool | Needed for | Install |
+|---|---|---|
+| **Node.js ≥ 18.17** | Running the scaffolder | https://nodejs.org (LTS) |
+| **git** | The `npx github:` form and `git init` | https://git-scm.com |
+| **A harness** (at least one) | Actually working with agents | Claude Code: `npm install -g @anthropic-ai/claude-code` · OpenCode: `npm install -g opencode-ai` |
+
+Optional, only if you enable the matching optimizer:
+
+- **Graphify** needs Python tooling (`uv` or `pipx`) — https://docs.astral.sh/uv/
+- **Headroom** and **Ponytail** are installed later, guided by `/setup-optimizers` inside
+  the workspace. Nothing to prepare.
+
+Check your versions: `node --version` and `git --version`.
+
+## Quick start
 
 ```bash
-# from this repo on GitHub
+# straight from GitHub (requires git installed)
 npx github:vincentheimann/create-agentic-workspace my-project
 
 # or from a local clone
-node bin/cli.js my-project
+git clone https://github.com/vincentheimann/create-agentic-workspace
+node create-agentic-workspace/bin/cli.js my-project
 ```
 
-The wizard asks for: project name & description, stack, target harnesses, sprint length,
-team mode, modules to enable, optimizers, and whether to `git init` with an initial
-commit. Every module is optional; `AGENTS.md` is composed from only what you enable.
+The wizard asks about: project name & description, stack, target harnesses, sprint
+length, team mode, modules, optimizers, and git init. **Press Enter to accept the
+defaults** — the defaults produce a full workspace with everything enabled.
 
-Non-interactive: `--yes` accepts all defaults. Other flags: `--offline` (skip the
-portfolio-agent download), `--no-git`.
+Then:
+
+```bash
+cd my-project
+claude        # or: opencode
+```
+
+…and follow `GETTING-STARTED.md` in the generated project — it walks a first-time user
+through the first 15 minutes (fill the project brief, install optimizers, build a
+backlog, start Sprint 1).
+
+Flags for non-interactive use: `--yes` (all defaults), `--offline` (skip the
+portfolio-agent download), `--no-git`, `--help`, `--version`.
 
 ## Generated workspace layout
 
 ```
 my-project/
 ├── AGENTS.md                  # single source of truth for all agents
+├── GETTING-STARTED.md         # human-facing guide to the workspace
 ├── CLAUDE.md                  # thin Claude Code entrypoint (imports AGENTS.md)
 ├── .agents/
 │   ├── skills/                # skill sources (edit here, then re-copy to mirrors)
@@ -68,6 +101,40 @@ The user is the Product Owner; agents facilitate ceremonies, keep artifacts and 
 sync, and never invent priorities. Ceremonies are plain markdown skills, so they run
 identically in any harness that supports commands — and can be followed manually in one
 that doesn't.
+
+## FAQ
+
+**Do I need both Claude Code and OpenCode?**
+No — pick whichever you have in the wizard's harness question. `AGENTS.md` works with
+any compliant tool, so you can add a harness later.
+
+**Can I run this on an existing project?**
+Yes. The scaffolder never overwrites existing files (it lists what it kept untouched),
+and it refuses to run at all if the project already has an `AGENTS.md`. Review the
+generated `.gitignore` note in the output if your project already had one.
+
+**Which model do I need?**
+Any capable coding model. The workspace is tested with Claude (Fable 5 / Opus) via
+Claude Code and Kimi K3 via OpenCode; nothing in it is model-specific.
+
+**Are the optimizers required?**
+No — they're all optional and can be skipped in the wizard or installed later with
+`/setup-optimizers`.
+
+## Troubleshooting
+
+- **`npx github:… ` fails immediately** — you probably don't have git installed (npx
+  needs it to fetch from GitHub), or a corporate proxy blocks GitHub. Clone manually and
+  run `node bin/cli.js` instead.
+- **"needs Node.js >= 18.17"** — update Node from https://nodejs.org.
+- **"Could not fetch the portfolio agent"** — you were offline or GitHub was
+  unreachable; the scaffolder wrote a placeholder at `.agents/portfolio-agent.md` with
+  the URL to fetch manually. Everything else works normally.
+- **Slash command not found in the harness** — commands live in `.claude/commands/`
+  (Claude Code) or `.opencode/command/` (OpenCode); restart the harness after
+  scaffolding, or check that you selected that harness in the wizard.
+- **`graphify: command not found` after install** — run `uv tool update-shell` (uv) or
+  `pipx ensurepath`, then open a new terminal.
 
 ## Extending
 

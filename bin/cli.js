@@ -6,6 +6,13 @@ import { spawnSync } from 'node:child_process';
 import * as p from '../lib/prompts.js';
 import { writeRendered, render, stripSections } from '../lib/scaffold.js';
 
+const [nodeMajor, nodeMinor] = process.versions.node.split('.').map(Number);
+if (nodeMajor < 18 || (nodeMajor === 18 && nodeMinor < 17)) {
+  console.error(`create-agentic-workspace needs Node.js >= 18.17 — you are running ${process.versions.node}.`);
+  console.error('Download the current LTS from https://nodejs.org and try again.');
+  process.exit(1);
+}
+
 const TEMPLATE_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'template');
 const PORTFOLIO_AGENT_URL =
   'https://raw.githubusercontent.com/vincentheimann/portfolio-agent/main/.claude/agents/portfolio.md';
@@ -25,6 +32,7 @@ const SKILLS = {
 const FILES = {
   core: [
     ['AGENTS.md', 'AGENTS.md'],
+    ['GETTING-STARTED.md', 'GETTING-STARTED.md'],
     ['gitignore', '.gitignore'],
   ],
   memory: [
@@ -49,14 +57,32 @@ const FILES = {
   optimizers: [['optimizers/OPTIMIZERS.md', 'optimizers/OPTIMIZERS.md']],
 };
 
+const USAGE = `create-agentic-workspace — scaffold an agent-agnostic AI workspace
+
+Usage:
+  npx github:vincentheimann/create-agentic-workspace [target-dir] [flags]
+
+Without flags an interactive wizard asks a few questions (Enter keeps defaults).
+
+Flags:
+  --yes        Accept all defaults, no questions asked
+  --offline    Skip downloading the portfolio agent
+  --no-git     Don't initialize a git repository
+  --help       Show this help
+  --version    Show the version
+
+Full documentation: https://github.com/vincentheimann/create-agentic-workspace`;
+
 function parseArgs(argv) {
-  const flags = new Set(argv.filter((a) => a.startsWith('--')));
-  const positional = argv.filter((a) => !a.startsWith('--'));
+  const flags = new Set(argv.filter((a) => a.startsWith('-')));
+  const positional = argv.filter((a) => !a.startsWith('-'));
   return {
     targetArg: positional[0] || '',
-    yes: flags.has('--yes'),
+    yes: flags.has('--yes') || flags.has('-y'),
     offline: flags.has('--offline') || process.env.CAW_OFFLINE === '1',
     noGit: flags.has('--no-git'),
+    help: flags.has('--help') || flags.has('-h'),
+    version: flags.has('--version') || flags.has('-v'),
   };
 }
 
@@ -140,6 +166,15 @@ function mirrorDirsFor(harnesses) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+  if (args.help) {
+    console.log(USAGE);
+    return;
+  }
+  if (args.version) {
+    const pkg = JSON.parse(fs.readFileSync(path.join(TEMPLATE_DIR, '..', 'package.json'), 'utf8'));
+    console.log(pkg.version);
+    return;
+  }
   const answers = args.yes ? defaults(args.targetArg) : await wizard(args.targetArg);
   if (args.noGit) answers.gitInit = false;
 
@@ -149,6 +184,16 @@ async function main() {
     process.exit(1);
   }
   fs.mkdirSync(target, { recursive: true });
+
+  // Never overwrite files the user already has (e.g. scaffolding into an existing repo).
+  const skipped = [];
+  const writeNew = (dest, fn) => {
+    if (fs.existsSync(dest)) {
+      skipped.push(path.relative(target, dest));
+      return;
+    }
+    fn();
+  };
 
   const enabled = new Set(['core', ...answers.modules]);
   if (answers.optimizers.length > 0) enabled.add('optimizers');
@@ -169,13 +214,15 @@ async function main() {
   for (const mod of Object.keys(FILES)) {
     if (!enabled.has(mod)) continue;
     for (const [src, dest] of FILES[mod]) {
-      writeRendered(path.join(TEMPLATE_DIR, src), path.join(target, dest), vars, enabled);
+      const destPath = path.join(target, dest);
+      writeNew(destPath, () => writeRendered(path.join(TEMPLATE_DIR, src), destPath, vars, enabled));
     }
   }
 
   // 2. CLAUDE.md only when Claude Code is a target harness
   if (answers.harnesses.includes('claude')) {
-    writeRendered(path.join(TEMPLATE_DIR, 'CLAUDE.md'), path.join(target, 'CLAUDE.md'), vars, enabled);
+    const destPath = path.join(target, 'CLAUDE.md');
+    writeNew(destPath, () => writeRendered(path.join(TEMPLATE_DIR, 'CLAUDE.md'), destPath, vars, enabled));
   }
 
   // 3. Skills: source of truth + per-harness mirrors
@@ -185,12 +232,17 @@ async function main() {
     for (const skill of SKILLS[mod]) {
       const src = path.join(TEMPLATE_DIR, 'skills', `${skill}.md`);
       const content = render(stripSections(fs.readFileSync(src, 'utf8'), enabled), vars);
-      const rel = path.join('.agents', 'skills', `${skill}.md`);
-      fs.mkdirSync(path.dirname(path.join(target, rel)), { recursive: true });
-      fs.writeFileSync(path.join(target, rel), content);
+      const srcDest = path.join(target, '.agents', 'skills', `${skill}.md`);
+      writeNew(srcDest, () => {
+        fs.mkdirSync(path.dirname(srcDest), { recursive: true });
+        fs.writeFileSync(srcDest, content);
+      });
       for (const dir of mirrors) {
-        fs.mkdirSync(path.join(target, dir), { recursive: true });
-        fs.writeFileSync(path.join(target, dir, `${skill}.md`), content);
+        const mirrorDest = path.join(target, dir, `${skill}.md`);
+        writeNew(mirrorDest, () => {
+          fs.mkdirSync(path.dirname(mirrorDest), { recursive: true });
+          fs.writeFileSync(mirrorDest, content);
+        });
       }
     }
   }
@@ -208,11 +260,17 @@ async function main() {
         'Run `/setup-optimizers` or download the agent definition from:',
         PORTFOLIO_AGENT_URL,
       ].join('\n');
-    fs.mkdirSync(path.join(target, '.agents'), { recursive: true });
-    fs.writeFileSync(path.join(target, '.agents', 'portfolio-agent.md'), body);
+    const agentDest = path.join(target, '.agents', 'portfolio-agent.md');
+    writeNew(agentDest, () => {
+      fs.mkdirSync(path.dirname(agentDest), { recursive: true });
+      fs.writeFileSync(agentDest, body);
+    });
     if (answers.harnesses.includes('claude')) {
-      fs.mkdirSync(path.join(target, '.claude', 'agents'), { recursive: true });
-      fs.writeFileSync(path.join(target, '.claude', 'agents', 'portfolio.md'), body);
+      const claudeDest = path.join(target, '.claude', 'agents', 'portfolio.md');
+      writeNew(claudeDest, () => {
+        fs.mkdirSync(path.dirname(claudeDest), { recursive: true });
+        fs.writeFileSync(claudeDest, body);
+      });
     }
     if (!agentContent) console.warn('! Could not fetch the portfolio agent — wrote a placeholder with instructions.');
   }
@@ -229,12 +287,16 @@ async function main() {
     }
   }
 
+  if (skipped.length > 0) {
+    console.warn(`! Kept ${skipped.length} existing file(s) untouched: ${skipped.join(', ')}`);
+  }
   console.log(`\n✓ Agentic workspace created in ${target}\n`);
   console.log('Next steps:');
-  console.log('  1. Open the project in your harness (Claude Code, OpenCode, ...).');
-  if (enabled.has('memory')) console.log('  2. Fill in memory/project-brief.md (or ask the agent to interview you).');
-  if (answers.optimizers.length > 0) console.log('  3. Run /setup-optimizers to install ' + answers.optimizers.join(', ') + '.');
-  if (enabled.has('scrum')) console.log('  4. Run /backlog-refinement, then /sprint-planning to start Sprint 1.');
+  console.log('  1. Read GETTING-STARTED.md — it explains everything for first-time users.');
+  console.log('  2. Open the project in your harness (Claude Code: `claude`, OpenCode: `opencode`).');
+  if (enabled.has('memory')) console.log('  3. Ask the agent: "Interview me to fill in memory/project-brief.md".');
+  if (answers.optimizers.length > 0) console.log('  4. Run /setup-optimizers to install ' + answers.optimizers.join(', ') + '.');
+  if (enabled.has('scrum')) console.log('  5. Run /backlog-refinement, then /sprint-planning to start Sprint 1.');
 }
 
 main().catch((err) => {
