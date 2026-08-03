@@ -1,5 +1,25 @@
 # create-agentic-workspace
 
+## TL;DR
+
+One command turns an empty folder into a project that AI coding agents know how to work
+on:
+
+```bash
+npx github:vincentheimann/create-agentic-workspace my-project
+```
+
+The generated workspace gives any agent — Claude Code, OpenCode, Cursor, Windsurf,
+Google Antigravity, anything that reads `AGENTS.md` — a shared rulebook and process:
+a **Scrum loop** run through slash commands, a **persistent memory** so every session
+continues where the last one stopped (even across different tools and models), **decision
+records** (ADRs), a **security checklist**, a **portfolio generator**, and optional
+**context optimizers**. You describe your idea and stay the Product Owner; the agent
+plans, builds and keeps the paperwork honest. Start with `/kickoff` — you'll see the
+first piece of your idea running in the same session.
+
+---
+
 Scaffold a complete, **harness-agnostic agentic workspace** into any new project — works
 with Claude Code (Fable 5), OpenCode (Kimi K3 or any model), and every
 AGENTS.md-compatible tool.
