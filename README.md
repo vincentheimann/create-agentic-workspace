@@ -36,7 +36,10 @@ One interactive command gives you:
 
 Optional, only if you enable the matching optimizer:
 
-- **Graphify** needs Python tooling (`uv` or `pipx`) — https://docs.astral.sh/uv/
+- **Graphify** needs Python tooling (`uv` or `pipx`) — https://docs.astral.sh/uv/. You
+  don't have to prepare it: the wizard detects a missing Python setup when you select
+  Graphify and warns you, and `/setup-optimizers` offers to install `uv` later (with
+  your consent, never automatically).
 - **Headroom** and **Ponytail** are installed later, guided by `/setup-optimizers` inside
   the workspace. Nothing to prepare.
 
@@ -120,6 +123,13 @@ Claude Code and Kimi K3 via OpenCode; nothing in it is model-specific.
 **Are the optimizers required?**
 No — they're all optional and can be skipped in the wizard or installed later with
 `/setup-optimizers`.
+
+**I don't have Python — can I still pick Graphify?**
+Yes. The wizard warns you that Python tooling is missing and lets you keep or drop the
+selection. If you keep it, `/setup-optimizers` walks you through installing `uv`
+(Windows: `winget install --id=astral-sh.uv -e`, macOS/Linux: the official install
+script) before installing Graphify. The scaffolder itself never installs Python — that
+choice stays yours.
 
 ## Troubleshooting
 

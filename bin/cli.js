@@ -86,6 +86,12 @@ function parseArgs(argv) {
   };
 }
 
+function hasCommand(cmd) {
+  return spawnSync(cmd, ['--version'], { stdio: 'ignore', shell: process.platform === 'win32' }).status === 0;
+}
+
+const hasPythonTooling = () => ['uv', 'pipx', 'python3', 'python'].some(hasCommand);
+
 function defaults(targetArg) {
   const name = targetArg ? path.basename(path.resolve(targetArg)) : 'my-project';
   return {
@@ -137,8 +143,15 @@ async function wizard(targetArg) {
     const optimizers = await p.multiselect('Context optimizers to set up?', [
       { label: 'Headroom — context compression layer (proxy/MCP, provider-agnostic)', value: 'headroom', selected: true },
       { label: 'Ponytail — minimal-code discipline skill', value: 'ponytail', selected: true },
-      { label: 'Graphify — local codebase knowledge graph (/graphify)', value: 'graphify', selected: true },
+      { label: 'Graphify — local codebase knowledge graph (/graphify, needs Python)', value: 'graphify', selected: true },
     ]);
+    if (optimizers.includes('graphify') && !hasPythonTooling()) {
+      console.log('\n  Note: Graphify needs Python tooling (uv or pipx), which was not found on this machine.');
+      console.log('  You can keep it selected — /setup-optimizers will guide you through installing uv later.');
+      if (!(await p.confirm('Keep Graphify selected?', true))) {
+        optimizers.splice(optimizers.indexOf('graphify'), 1);
+      }
+    }
     const gitInit = await p.confirm('Initialize a git repository with an initial commit?', true);
     return { targetDir, projectName, description, stack, harnesses, sprintWeeks, teamMode, modules, optimizers, gitInit };
   } finally {
@@ -177,6 +190,9 @@ async function main() {
   }
   const answers = args.yes ? defaults(args.targetArg) : await wizard(args.targetArg);
   if (args.noGit) answers.gitInit = false;
+  if (args.yes && answers.optimizers.includes('graphify') && !hasPythonTooling()) {
+    console.warn('! Graphify needs Python tooling (uv or pipx), which was not found — /setup-optimizers will guide the install later.');
+  }
 
   const target = path.resolve(answers.targetDir);
   if (fs.existsSync(path.join(target, 'AGENTS.md'))) {

@@ -15,7 +15,11 @@ Walk the user through installing the optimizers listed in `optimizers/OPTIMIZERS
      of `opencode.json` (create the file if needed).
 <!-- END:ponytail -->
 <!-- BEGIN:graphify -->
-   - **Graphify:** check Python tooling (`uv --version` or `pipx --version`). Run
+   - **Graphify:** check Python tooling (`uv --version` or `pipx --version`). If neither
+     exists, offer to install `uv` first — only with the user's explicit OK:
+     Windows: `winget install --id=astral-sh.uv -e` · macOS/Linux:
+     `curl -LsSf https://astral.sh/uv/install.sh | sh` — then open a new terminal or
+     refresh PATH. Never install Python tooling without asking. Then run
      `uv tool install graphifyy` (fallback: `pipx install graphifyy`), then
      `graphify install --project`. Build the first graph with `/graphify .` and confirm
      `graphify-out/` was produced.
