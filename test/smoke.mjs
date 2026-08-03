@@ -22,6 +22,8 @@ const mustExist = [
   'GETTING-STARTED.md',
   'CLAUDE.md',
   '.gitignore',
+  '.agents/skills/kickoff.md',
+  '.claude/commands/kickoff.md',
   '.agents/skills/sprint-planning.md',
   '.agents/skills/memory-update.md',
   '.agents/skills/setup-optimizers.md',

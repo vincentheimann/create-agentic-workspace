@@ -35,18 +35,21 @@ https://github.com/vincentheimann/create-agentic-workspace.
    (Use --optimizers=none / --modules=<subset> if I asked for less. Node >= 18.17 and
    git are required — check them first and tell me if something is missing.)
 
-3. Read the generated AGENTS.md and GETTING-STARTED.md, then interview me to fill in
-   memory/project-brief.md.
+3. Read the generated AGENTS.md and GETTING-STARTED.md.
 
-4. Finish by proposing to run /backlog-refinement so we can build the product backlog
-   together (note: freshly generated slash commands may need a harness restart —
-   if so, use the instructions from .agents/skills/backlog-refinement.md directly).
+4. Then run the kickoff: follow .agents/skills/kickoff.md — interview me about my idea,
+   seed a small backlog, plan Sprint 1, and BUILD the first working slice in this same
+   session so I can see my idea running. (Freshly generated slash commands may need a
+   harness restart; using the skill file directly always works.)
 ```
 
 The rest of this README explains what you get and how to run it by hand.
 
 One interactive command gives you:
 
+- **`/kickoff`** — one command from empty project to first working feature: the agent
+  interviews you, seeds the backlog, plans Sprint 1 and builds the smallest end-to-end
+  slice of your idea in the same session.
 - **`AGENTS.md` as single source of truth** — harness files (`CLAUDE.md`,
   `.claude/commands/`, `.opencode/command/`) are generated mirrors of `.agents/skills/`.
 - **Scrum loops with ceremonies** as slash commands: `/backlog-refinement`,
@@ -104,9 +107,9 @@ cd my-project
 claude        # or: opencode
 ```
 
-…and follow `GETTING-STARTED.md` in the generated project — it walks a first-time user
-through the first 15 minutes (fill the project brief, install optimizers, build a
-backlog, start Sprint 1).
+…then run **`/kickoff`** and describe your idea — you end the first session with a small
+piece of it actually running. `GETTING-STARTED.md` in the generated project covers
+everything else (harness setup, the step-by-step alternative, the command cheat sheet).
 
 Flags for non-interactive use: `--yes` (all defaults), `--offline` (skip the
 portfolio-agent download), `--no-git`, `--help`, `--version`. Every wizard answer also
@@ -156,7 +159,9 @@ slash command you type inside your harness; the agent does the bookkeeping.
 | `/sprint-review` | Follow the demo, accept or reject stories, give feedback | Verifies each story honestly against the Definition of Done, runs tests, adapts the backlog | Sprint file (Review), backlog, `memory/progress.md` |
 | `/retrospective` | Discuss what to keep/change, approve 1–3 actions | Checks last retro's actions, records new ones, updates working agreements | Sprint file (Retro), `scrum/README.md`, `memory/decision-log.md` |
 
-A first sprint, concretely:
+On a brand-new project, `/kickoff` compresses the first pass of this loop into one
+guided session that ends with the smallest slice of your idea running. After that — or
+if you prefer the full ceremony from day one — a first sprint, concretely:
 
 1. **`/backlog-refinement`** — tell the agent what you want to build, in plain words.
    It writes ordered, estimated stories into `scrum/PRODUCT-BACKLOG.md` and asks you to

@@ -20,6 +20,7 @@ const PORTFOLIO_AGENT_URL =
 // Skills shipped per module. Source of truth ends up in .agents/skills/,
 // mirrored into each selected harness's command directory.
 const SKILLS = {
+  core: ['kickoff'],
   memory: ['memory-update'],
   adr: ['adr-new'],
   scrum: ['sprint-planning', 'standup', 'backlog-refinement', 'sprint-review', 'retrospective'],
@@ -372,12 +373,14 @@ async function main() {
     console.warn(`! Kept ${skipped.length} existing file(s) untouched: ${skipped.join(', ')}`);
   }
   console.log(`\n✓ Agentic workspace created in ${target}\n`);
-  console.log('Next steps:');
-  console.log('  1. Read GETTING-STARTED.md — it explains everything for first-time users.');
-  console.log('  2. Open the project in your harness (Claude Code: `claude`, OpenCode: `opencode`).');
-  if (enabled.has('memory')) console.log('  3. Ask the agent: "Interview me to fill in memory/project-brief.md".');
-  if (answers.optimizers.length > 0) console.log('  4. Run /setup-optimizers to install ' + answers.optimizers.join(', ') + '.');
-  if (enabled.has('scrum')) console.log('  5. Run /backlog-refinement, then /sprint-planning to start Sprint 1.');
+  console.log('What\'s next — ship your first idea today:');
+  console.log('  1. Open the project in your harness (Claude Code: `claude`, OpenCode: `opencode`).');
+  console.log('  2. Run /kickoff and describe your idea — the agent interviews you, plans');
+  console.log('     Sprint 1 and builds the first working slice in the same session.');
+  console.log('  3. GETTING-STARTED.md explains everything else, whenever you need it.');
+  if (answers.optimizers.length > 0) {
+    console.log('  (Anytime: /setup-optimizers installs ' + answers.optimizers.join(', ') + '.)');
+  }
 }
 
 main().catch((err) => {

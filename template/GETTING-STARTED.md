@@ -36,7 +36,10 @@ this workspace the moment it starts.
 
 ## 2. Your first session (~15 minutes)
 
-Type these as messages/commands inside the harness:
+**The shortcut: run `/kickoff` and describe your idea.** It does everything below in one
+guided flow — and ends with the first small piece of your idea actually running, today.
+
+Prefer to go step by step? Type these as messages/commands inside the harness:
 
 1. **Introduce the project.** Say: *"Interview me to fill in `memory/project-brief.md`"*
    — the agent asks you questions and writes the answers down.
@@ -62,6 +65,7 @@ Type these as messages/commands inside the harness:
 
 | Command | What it does | When |
 |---|---|---|
+| `/kickoff` | Idea → backlog → Sprint 1 → first working slice, in one session | Once, on a fresh project |
 <!-- BEGIN:scrum -->
 | `/backlog-refinement` | Clarify, split, estimate and order backlog items | Whenever ideas pile up |
 | `/sprint-planning` | Agree a sprint goal, commit stories, create the sprint file | Sprint start |
@@ -114,5 +118,7 @@ paste its instructions as a message.
   (see `scrum/DEFINITION-OF-DONE.md`).
 - End every session with `/memory-update`. It's the difference between an agent that
   remembers your project and one that starts from zero.
+- **Ship in session one.** End your first session with something that runs, however
+  small — momentum beats process. If you only remember one command: `/kickoff`.
 
 You can delete this file once you no longer need it — nothing depends on it.

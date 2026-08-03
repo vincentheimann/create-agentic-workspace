@@ -110,6 +110,7 @@ install them (`/setup-optimizers` walks through it):
 
 ## Available commands
 
+- `/kickoff` — zero-to-first-feature start for a fresh project (idea → Sprint 1 → smallest working slice, in one session)
 <!-- BEGIN:scrum -->
 - `/sprint-planning`, `/standup`, `/backlog-refinement`, `/sprint-review`, `/retrospective` — Scrum ceremonies
 <!-- END:scrum -->
