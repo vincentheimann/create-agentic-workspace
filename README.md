@@ -94,16 +94,51 @@ my-project/
 └── optimizers/OPTIMIZERS.md   # chosen optimizers + real install commands
 ```
 
-## The Scrum loop
+## Running the Scrum loop
 
 ```
 /backlog-refinement → /sprint-planning → daily /standup → /sprint-review → /retrospective
+        ↑                                                                       │
+        └───────────────────── actions feed the next sprint ────────────────────┘
 ```
 
-The user is the Product Owner; agents facilitate ceremonies, keep artifacts and memory in
-sync, and never invent priorities. Ceremonies are plain markdown skills, so they run
-identically in any harness that supports commands — and can be followed manually in one
-that doesn't.
+Two roles: **you are the Product Owner** (you decide what's valuable and what's
+accepted), the **agent facilitates and develops** (it runs the ceremonies, writes the
+artifacts, implements stories — and never invents your priorities). Every ceremony is a
+slash command you type inside your harness; the agent does the bookkeeping.
+
+| Ceremony | You | The agent | Files it touches |
+|---|---|---|---|
+| `/backlog-refinement` | Brain-dump ideas, answer questions, confirm the order | Turns ideas into user stories with acceptance criteria and estimates, splits big ones | `scrum/PRODUCT-BACKLOG.md` |
+| `/sprint-planning` | Confirm/adjust the proposed sprint goal | Selects refined stories that fit the sprint, creates the sprint file | `scrum/sprints/sprint-NNN.md`, backlog statuses |
+| `/standup` | Read 3 bullets, unblock if needed | Checks git log + story status, logs done / next / blockers | Daily log in the sprint file |
+| `/sprint-review` | Follow the demo, accept or reject stories, give feedback | Verifies each story honestly against the Definition of Done, runs tests, adapts the backlog | Sprint file (Review), backlog, `memory/progress.md` |
+| `/retrospective` | Discuss what to keep/change, approve 1–3 actions | Checks last retro's actions, records new ones, updates working agreements | Sprint file (Retro), `scrum/README.md`, `memory/decision-log.md` |
+
+A first sprint, concretely:
+
+1. **`/backlog-refinement`** — tell the agent what you want to build, in plain words.
+   It writes ordered, estimated stories into `scrum/PRODUCT-BACKLOG.md` and asks you to
+   confirm the priorities.
+2. **`/sprint-planning`** — the agent proposes a one-sentence sprint goal from the top of
+   the backlog. You agree (or change it); it creates `scrum/sprints/sprint-001.md` with
+   the committed stories.
+3. **Work** — ask the agent to implement the first story. "Done" is defined by
+   `scrum/DEFINITION-OF-DONE.md` (tests pass, no secrets, memory updated, …) — not by
+   the agent's optimism.
+4. **`/standup`** — once per working day (for a solo developer: once per working
+   session). Three bullets, sprint file updated, risks surfaced early.
+5. **`/sprint-review`** at sprint end — the agent demos what's genuinely Done, moves
+   unfinished work back to the backlog, and updates `memory/progress.md`.
+6. **`/retrospective`** — agree on 1–3 improvement actions; they're carried into the
+   next sprint automatically because `/sprint-planning` reads them.
+7. Loop back to step 1 (or straight to planning if the backlog is still refined).
+
+The cadence is yours: ceremonies run when *you* trigger them, so a "2-week sprint" can
+compress into an evening for a hobby project. The same walkthrough ships inside every
+generated workspace as `GETTING-STARTED.md`, so you don't need this README open while
+working. And because ceremonies are plain markdown skills, they run identically in any
+harness that supports commands — or can be followed manually in one that doesn't.
 
 ## FAQ
 
