@@ -71,19 +71,81 @@ Flags:
   --help       Show this help
   --version    Show the version
 
+Non-interactive answers (any of these skips the wizard; unset ones keep defaults —
+made for AI agents scaffolding on a user's behalf):
+  --name="…" --description="…" --stack="…"
+  --harnesses=claude,opencode,agnostic
+  --sprint-weeks=1|2|3|4
+  --team=solo|team
+  --modules=memory,adr,scrum,security,portfolio   (or "none")
+  --optimizers=headroom,ponytail,graphify         (or "none")
+
 Full documentation: https://github.com/vincentheimann/create-agentic-workspace`;
 
+const HARNESS_VALUES = ['claude', 'opencode', 'agnostic'];
+const MODULE_VALUES = ['memory', 'adr', 'scrum', 'security', 'portfolio'];
+const OPTIMIZER_VALUES = ['headroom', 'ponytail', 'graphify'];
+
 function parseArgs(argv) {
-  const flags = new Set(argv.filter((a) => a.startsWith('-')));
-  const positional = argv.filter((a) => !a.startsWith('-'));
+  const flags = new Set();
+  const opts = {};
+  const positional = [];
+  for (const a of argv) {
+    if (a.startsWith('--') && a.includes('=')) {
+      const [k, ...rest] = a.slice(2).split('=');
+      opts[k] = rest.join('=');
+    } else if (a.startsWith('-')) {
+      flags.add(a);
+    } else {
+      positional.push(a);
+    }
+  }
   return {
     targetArg: positional[0] || '',
+    opts,
     yes: flags.has('--yes') || flags.has('-y'),
     offline: flags.has('--offline') || process.env.CAW_OFFLINE === '1',
     noGit: flags.has('--no-git'),
     help: flags.has('--help') || flags.has('-h'),
     version: flags.has('--version') || flags.has('-v'),
   };
+}
+
+function parseList(name, value, allowed) {
+  if (value === 'none') return [];
+  const items = [...new Set(value.split(',').map((s) => s.trim()).filter(Boolean))];
+  for (const item of items) {
+    if (!allowed.includes(item)) {
+      console.error(`Invalid value "${item}" for --${name}. Allowed: ${allowed.join(', ')} (or "none").`);
+      process.exit(1);
+    }
+  }
+  return items;
+}
+
+function applyOverrides(answers, opts) {
+  if (opts.name) answers.projectName = opts.name;
+  if (opts.description) answers.description = opts.description;
+  if (opts.stack) answers.stack = opts.stack;
+  if (opts.harnesses) answers.harnesses = parseList('harnesses', opts.harnesses, HARNESS_VALUES);
+  if (opts.modules) answers.modules = parseList('modules', opts.modules, MODULE_VALUES);
+  if (opts.optimizers) answers.optimizers = parseList('optimizers', opts.optimizers, OPTIMIZER_VALUES);
+  if (opts['sprint-weeks'] !== undefined) {
+    const weeks = Number(opts['sprint-weeks']);
+    if (![1, 2, 3, 4].includes(weeks)) {
+      console.error('--sprint-weeks must be 1, 2, 3 or 4.');
+      process.exit(1);
+    }
+    answers.sprintWeeks = weeks;
+  }
+  if (opts.team !== undefined) {
+    const modes = { solo: 'Solo developer + AI agents', team: 'Small human team + AI agents' };
+    if (!modes[opts.team]) {
+      console.error('--team must be "solo" or "team".');
+      process.exit(1);
+    }
+    answers.teamMode = modes[opts.team];
+  }
 }
 
 function hasCommand(cmd) {
@@ -188,9 +250,12 @@ async function main() {
     console.log(pkg.version);
     return;
   }
-  const answers = args.yes ? defaults(args.targetArg) : await wizard(args.targetArg);
+  const nonInteractive = args.yes || Object.keys(args.opts).length > 0;
+  const answers = nonInteractive ? defaults(args.targetArg) : await wizard(args.targetArg);
+  applyOverrides(answers, args.opts);
+  if (!args.targetArg && args.opts.name) answers.targetDir = args.opts.name;
   if (args.noGit) answers.gitInit = false;
-  if (args.yes && answers.optimizers.includes('graphify') && !hasPythonTooling()) {
+  if (nonInteractive && answers.optimizers.includes('graphify') && !hasPythonTooling()) {
     console.warn('! Graphify needs Python tooling (uv or pipx), which was not found — /setup-optimizers will guide the install later.');
   }
 

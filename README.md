@@ -8,6 +8,43 @@ AGENTS.md-compatible tool.
 plain questions, and the generated project includes a `GETTING-STARTED.md` written for
 humans who have never used an agent before.
 
+## Kickstart prompt (copy/paste into your agent chat)
+
+Already inside an agent chat (Claude Code, OpenCode, …)? Paste this and the agent sets
+everything up for you:
+
+```text
+I want to start a new project using the agentic workspace kit from
+https://github.com/vincentheimann/create-agentic-workspace.
+
+1. Interview me briefly (one question at a time): project name, one-line description,
+   main language/stack, which harnesses I use (claude and/or opencode), sprint length
+   in weeks (1-4), solo or team, which modules I want (memory, adr, scrum, security,
+   portfolio — default: all) and which context optimizers (headroom, ponytail,
+   graphify — default: all). Suggest sensible defaults so I can just say "yes".
+
+2. Scaffold it with ONE non-interactive command (do NOT run the bare interactive
+   wizard — it will hang in your shell). Fill in my answers:
+
+   npx github:vincentheimann/create-agentic-workspace <dir> --name="…" \
+     --description="…" --stack="…" --harnesses=claude,opencode \
+     --sprint-weeks=2 --team=solo \
+     --modules=memory,adr,scrum,security,portfolio \
+     --optimizers=headroom,ponytail,graphify
+
+   (Use --optimizers=none / --modules=<subset> if I asked for less. Node >= 18.17 and
+   git are required — check them first and tell me if something is missing.)
+
+3. Read the generated AGENTS.md and GETTING-STARTED.md, then interview me to fill in
+   memory/project-brief.md.
+
+4. Finish by proposing to run /backlog-refinement so we can build the product backlog
+   together (note: freshly generated slash commands may need a harness restart —
+   if so, use the instructions from .agents/skills/backlog-refinement.md directly).
+```
+
+The rest of this README explains what you get and how to run it by hand.
+
 One interactive command gives you:
 
 - **`AGENTS.md` as single source of truth** — harness files (`CLAUDE.md`,
@@ -72,7 +109,11 @@ through the first 15 minutes (fill the project brief, install optimizers, build 
 backlog, start Sprint 1).
 
 Flags for non-interactive use: `--yes` (all defaults), `--offline` (skip the
-portfolio-agent download), `--no-git`, `--help`, `--version`.
+portfolio-agent download), `--no-git`, `--help`, `--version`. Every wizard answer also
+exists as a flag (`--name`, `--description`, `--stack`, `--harnesses`, `--sprint-weeks`,
+`--team`, `--modules`, `--optimizers`) — passing any of them skips the wizard, which is
+how an AI agent scaffolds on your behalf (see the kickstart prompt above). Run `--help`
+for the accepted values.
 
 ## Generated workspace layout
 

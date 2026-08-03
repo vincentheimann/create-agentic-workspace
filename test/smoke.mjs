@@ -77,6 +77,43 @@ if (fs.readFileSync(path.join(existing, '.gitignore'), 'utf8') !== 'SENTINEL\n')
 }
 fs.rmSync(existing, { recursive: true, force: true });
 
+// Answer flags must skip the wizard and shape the workspace.
+const flagged = fs.mkdtempSync(path.join(os.tmpdir(), 'caw-flags-'));
+const fr = spawnSync(
+  process.execPath,
+  [
+    path.join(root, 'bin', 'cli.js'),
+    flagged,
+    '--offline',
+    '--no-git',
+    '--name=Flagged App',
+    '--stack=Python',
+    '--harnesses=claude',
+    '--modules=memory,adr',
+    '--optimizers=none',
+  ],
+  { encoding: 'utf8' }
+);
+if (fr.status !== 0) {
+  console.error(fr.stdout, fr.stderr);
+  throw new Error('flag-driven scaffold failed');
+}
+const flaggedAgents = fs.readFileSync(path.join(flagged, 'AGENTS.md'), 'utf8');
+if (!flaggedAgents.includes('Flagged App')) throw new Error('--name not applied');
+if (flaggedAgents.includes('Scrum protocol')) throw new Error('--modules did not exclude scrum');
+if (fs.existsSync(path.join(flagged, 'scrum'))) throw new Error('scrum/ generated despite --modules');
+if (fs.existsSync(path.join(flagged, 'optimizers'))) throw new Error('optimizers/ generated despite --optimizers=none');
+if (fs.existsSync(path.join(flagged, '.opencode'))) throw new Error('.opencode/ generated despite --harnesses=claude');
+fs.rmSync(flagged, { recursive: true, force: true });
+
+// Invalid flag values must fail fast with a clear error.
+const bad = spawnSync(
+  process.execPath,
+  [path.join(root, 'bin', 'cli.js'), path.join(os.tmpdir(), 'caw-never'), '--modules=scrum,nonsense', '--offline', '--no-git'],
+  { encoding: 'utf8' }
+);
+if (bad.status === 0 || !bad.stderr.includes('nonsense')) throw new Error('invalid --modules value not rejected');
+
 // Re-run against the same directory must refuse to overwrite.
 const rerun = spawnSync(
   process.execPath,
