@@ -67,7 +67,23 @@ Prefer to go step by step? Type these as messages/commands inside the harness:
    harness or model) picks up exactly where you left off.
 <!-- END:memory -->
 
-## 3. Command cheat sheet
+## 3. The loop at a glance
+
+```mermaid
+flowchart LR
+    K["/kickoff<br/>first session only"] --> R["/backlog-refinement"]
+    R --> P["/sprint-planning"]
+    P --> W["build + /standup daily"]
+    W --> V["/sprint-review"]
+    V --> T["/retrospective"]
+    T --> R
+    W -.-> M["/memory-update<br/>every session end"]
+```
+
+Setup and kickoff happen once; the loop repeats for the life of the project. The memory
+update is what lets you stop anytime and resume later without losing the thread.
+
+## 4. Command cheat sheet
 
 | Command | What it does | When |
 |---|---|---|
@@ -98,7 +114,7 @@ Prefer to go step by step? Type these as messages/commands inside the harness:
 If your harness has no slash commands, open the matching file in `.agents/skills/` and
 paste its instructions as a message.
 
-## 4. Where things live
+## 5. Where things live
 
 - `AGENTS.md` — the rulebook every agent follows (start here if curious)
 <!-- BEGIN:memory -->
@@ -116,7 +132,7 @@ paste its instructions as a message.
 - `.agents/skills/` — the source of every command above (edit here, copy to
   `.claude/commands/` / `.opencode/command/`)
 
-## 5. Good habits
+## 6. Good habits
 
 - You are the **Product Owner**: agents propose, you decide. Never let an agent invent
   your priorities.

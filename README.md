@@ -184,11 +184,44 @@ my-project/
 
 ## Running the Scrum loop
 
+How a project iterates with this workspace, from empty folder to shipping loop:
+
+```mermaid
+flowchart TD
+    subgraph setup ["1 · One-time setup"]
+        A["npx create-agentic-workspace"] --> B["Generated workspace<br/>AGENTS.md · scrum/ · memory/ · docs/adr/"]
+        B --> C["/kickoff<br/>idea interview → mini-backlog →<br/>Sprint 1 → first working slice"]
+    end
+
+    subgraph sprintloop ["2 · Sprint loop — repeats every sprint"]
+        D["/backlog-refinement<br/>stories · acceptance criteria · estimates"] --> E["/sprint-planning<br/>sprint goal + commitment<br/>→ scrum/sprints/sprint-NNN.md"]
+        E --> F["Build stories<br/>Definition of Done applies"]
+        F --> G["/standup<br/>done · next · blockers"]
+        G -->|"sprint continues"| F
+        G -->|"sprint ends"| H["/sprint-review<br/>honest Done check · demo ·<br/>backlog adapted"]
+        H --> I["/retrospective<br/>1–3 actions → working agreements"]
+        I -->|"actions feed the next sprint"| D
+    end
+
+    C --> D
+
+    subgraph memorybox ["3 · Every session, any harness"]
+        M["Start: agent reads<br/>memory/active-context.md"] ~~~ N["End: /memory-update<br/>writes context for the next session"]
+    end
+
+    subgraph ondemand ["4 · On demand"]
+        O["/adr-new<br/>significant decisions"] ~~~ P["/security-review<br/>before releases"] ~~~ Q["/portfolio<br/>after milestones"]
+    end
+
+    F -.-> O
+    H -.-> Q
+
+    sprintloop ~~~ memorybox
 ```
-/backlog-refinement → /sprint-planning → daily /standup → /sprint-review → /retrospective
-        ↑                                                                       │
-        └───────────────────── actions feed the next sprint ────────────────────┘
-```
+
+Reading it top to bottom: setup happens once, the sprint loop repeats for the life of
+the project, and the memory habit (box 3) is what lets you stop anytime and resume in a
+different session — or a different tool — without losing the thread.
 
 Two roles: **you are the Product Owner** (you decide what's valuable and what's
 accepted), the **agent facilitates and develops** (it runs the ceremonies, writes the
