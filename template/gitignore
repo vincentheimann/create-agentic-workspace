@@ -1,0 +1,18 @@
+# Dependencies / build
+node_modules/
+dist/
+build/
+__pycache__/
+.venv/
+
+# Environment & secrets — never commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Tooling output
+graphify-out/
+*.log
+.DS_Store

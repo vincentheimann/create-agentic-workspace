@@ -1,0 +1,30 @@
+{
+  "name": "create-agentic-workspace",
+  "version": "0.1.0",
+  "description": "Scaffold an agent-agnostic AI workspace (Claude Code, OpenCode, any AGENTS.md harness) with Scrum ceremonies, ADRs, living memory, a security baseline and context optimizers (Headroom, Ponytail, Graphify).",
+  "type": "module",
+  "bin": {
+    "create-agentic-workspace": "bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "template"
+  ],
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "test": "node test/smoke.mjs"
+  },
+  "keywords": [
+    "scaffold",
+    "agents",
+    "agents-md",
+    "claude-code",
+    "opencode",
+    "scrum",
+    "adr"
+  ],
+  "license": "MIT"
+}
