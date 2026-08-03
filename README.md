@@ -66,6 +66,30 @@ One interactive command gives you:
   [Ponytail](https://github.com/dietrichgebert/ponytail) (minimal-code discipline) and
   [Graphify](https://github.com/Graphify-Labs/graphify) (codebase knowledge graph).
 
+## Where do I run this?
+
+**Everything starts in a terminal** — the text window where you type commands. Never
+opened one? Windows: press the Windows key, type `powershell`, Enter. macOS: press
+Cmd+Space, type `terminal`, Enter. Every editor below also has one built in (usually
+*View → Terminal*), which is the most convenient place: you scaffold and run the agent
+right next to your code.
+
+The generated workspace then works in all of these tools:
+
+| Tool | What it is | How this workspace fits |
+|---|---|---|
+| **Claude Code** | Anthropic's agent CLI | First-class: reads `CLAUDE.md`/`AGENTS.md`, slash commands from `.claude/commands/`, portfolio subagent. Run `claude` in the project folder — in any terminal, or via its VS Code / JetBrains extensions. |
+| **OpenCode** | Open-source agent CLI (Kimi K3, many models) | First-class: reads `AGENTS.md`, commands from `.opencode/command/`. Run `opencode` in the project folder. |
+| **VS Code** | Editor | Open the project folder, then use Claude Code's VS Code extension or run either CLI in the integrated terminal. |
+| **Cursor** | AI editor | Reads `AGENTS.md` natively, so the rules, Scrum protocol and memory work out of the box. No generated slash commands — open a file from `.agents/skills/` and paste its instructions into the chat. |
+| **Windsurf** | AI editor | Same as Cursor: `AGENTS.md` is read natively; use `.agents/skills/` files as prompts. |
+| **Google Antigravity** | Agent-first IDE | Reads `AGENTS.md` from the project root. Its workflows are markdown files invoked as `/name` — register the `.agents/skills/` files as workflows to get the ceremonies as slash commands. |
+| **JetBrains IDEs** | IDE (IntelliJ, PyCharm, …) | Claude Code's JetBrains plugin, or either CLI in the built-in terminal. |
+
+Anything else that understands `AGENTS.md` (Codex CLI, Gemini CLI, Aider, …) picks up
+the rules and memory automatically; the `.agents/skills/` files always work as
+copy/paste prompts even without slash-command support.
+
 ## Prerequisites
 
 | Tool | Needed for | Install |

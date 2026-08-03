@@ -34,6 +34,12 @@ for the model you choose). Docs: https://opencode.ai
 Both harnesses automatically read `AGENTS.md`, so the agent already knows the rules of
 this workspace the moment it starts.
 
+Tip: run these commands from a terminal *inside your editor* (VS Code, Cursor, JetBrains:
+*View → Terminal*) so the agent works right next to your code. AI editors like Cursor,
+Windsurf and Google Antigravity also read `AGENTS.md` natively — in those, use the files
+in `.agents/skills/` as copy/paste prompts instead of slash commands (Antigravity can
+register them as `/name` workflows).
+
 ## 2. Your first session (~15 minutes)
 
 **The shortcut: run `/kickoff` and describe your idea.** It does everything below in one
