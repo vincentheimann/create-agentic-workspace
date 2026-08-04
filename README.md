@@ -18,6 +18,10 @@ records** (ADRs), a **security checklist**, a **portfolio generator**, and optio
 plans, builds and keeps the paperwork honest. Start with `/kickoff` — you'll see the
 first piece of your idea running in the same session.
 
+Prefer pictures? [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) shows the three loop
+layers (governance · sprint · session) and the common user path from idea to steady
+rhythm.
+
 ---
 
 Scaffold a complete, **harness-agnostic agentic workspace** into any new project — works
@@ -223,6 +227,10 @@ flowchart TD
 Reading it top to bottom: setup happens once, the sprint loop repeats for the life of
 the project, and the memory habit (box 3) is what lets you stop anytime and resume in a
 different session — or a different tool — without losing the thread.
+
+For the deeper picture — how the governance (charter), sprint and session loops nest
+into each other, and the typical user journey from idea to steady rhythm — see
+[docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md).
 
 Two roles: **you are the Product Owner** (you decide what's valuable and what's
 accepted), the **agent facilitates and develops** (it runs the ceremonies, writes the
