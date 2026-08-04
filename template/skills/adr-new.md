@@ -7,7 +7,10 @@ Create a new **Architecture Decision Record**.
 1. Determine the next number NNNN from the files in `docs/adr/`.
 2. If the decision context isn't already clear from the conversation, ask for: the
    problem, the options considered, and the chosen option with rationale. Don't pad —
-   a real ADR with two honest options beats a fake one with four.
+   a real ADR with two honest options beats a fake one with four. If the decision
+   touches the project's direction, check it against `memory/project-charter.md` and
+   cite the charter in the Context section; a decision that contradicts the charter
+   needs the PO to amend the charter first.
 3. Create `docs/adr/NNNN-<kebab-title>.md` from `docs/adr/template.md`, filling number,
    title, today's date, deciders, context, options, outcome and consequences.
    Status is `accepted` if the decision is confirmed, else `proposed`.

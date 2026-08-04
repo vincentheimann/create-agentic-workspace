@@ -31,6 +31,7 @@ const mustExist = [
   '.claude/commands/standup.md',
   '.claude/agents/portfolio.md',
   '.opencode/command/retrospective.md',
+  'memory/project-charter.md',
   'memory/active-context.md',
   'memory/decision-log.md',
   'docs/adr/0001-record-architecture-decisions.md',

@@ -75,7 +75,8 @@ One interactive command gives you:
 - **Scrum loops with ceremonies** as slash commands: `/backlog-refinement`,
   `/sprint-planning`, `/standup`, `/sprint-review`, `/retrospective` — plus product
   backlog, Definition of Done and per-sprint files in `scrum/`.
-- **Living memory** (`memory/`) — project brief, active context, decision log, progress —
+- **Living memory** (`memory/`) — project charter (mission, vision, success criteria —
+  the compass every ceremony checks against), active context, decision log, progress —
   kept in sync with `/memory-update`, shared across sessions and harnesses.
 - **ADRs** (`docs/adr/`, MADR-lite) via `/adr-new`.
 - **Security baseline** (`security/SECURITY-BASELINE.md`) audited by `/security-review`.
@@ -175,7 +176,7 @@ my-project/
 ├── .claude/commands/          # mirror for Claude Code   (if selected)
 ├── .claude/agents/portfolio.md
 ├── .opencode/command/         # mirror for OpenCode      (if selected)
-├── memory/                    # living memory (brief, active context, decisions, progress)
+├── memory/                    # living memory (charter, active context, decisions, progress)
 ├── docs/adr/                  # architecture decision records
 ├── scrum/                     # backlog, DoD, sprints/, working agreements
 ├── security/SECURITY-BASELINE.md

@@ -14,13 +14,18 @@ never edit a mirror directly.
 ## Operating rules
 
 1. **Read before you act.** At session start, read `memory/active-context.md` and skim
-   `memory/project-brief.md`. Do not re-derive what the memory already records.
-2. **Minimalism.** The best code is the code you never wrote. Before adding code, check
+   `memory/project-charter.md`. Do not re-derive what the memory already records.
+2. **Stay on mission.** `memory/project-charter.md` is the project's compass (mission,
+   vision, success criteria). Check significant work against it — backlog items, sprint
+   goals, architecture decisions. If something doesn't serve the charter, surface the
+   conflict to the Product Owner instead of silently drifting; the charter itself changes
+   only by explicit PO decision, logged in `memory/decision-log.md`.
+3. **Minimalism.** The best code is the code you never wrote. Before adding code, check
    whether the standard library, the platform, or an existing dependency already solves it.
-3. **Record decisions.** Significant or hard-to-reverse choices get an ADR (`/adr-new`).
+4. **Record decisions.** Significant or hard-to-reverse choices get an ADR (`/adr-new`).
    Small learnings go to `memory/decision-log.md`.
-4. **Leave the camp clean.** Before ending a work session, run `/memory-update`.
-5. **Honesty.** Report failing tests as failing. Never fabricate results, metrics, or
+5. **Leave the camp clean.** Before ending a work session, run `/memory-update`.
+6. **Honesty.** Report failing tests as failing. Never fabricate results, metrics, or
    evidence. Prefer "unknown" over a guess.
 
 <!-- BEGIN:memory -->
@@ -31,7 +36,7 @@ harnesses. It is deliberately small — four files, each kept under ~150 lines:
 
 | File | Contains | Updated |
 |---|---|---|
-| `memory/project-brief.md` | Purpose, users, goals, constraints | Rarely |
+| `memory/project-charter.md` | The compass: mission, vision, success criteria, non-goals, constraints | Rarely — only by explicit PO decision |
 | `memory/active-context.md` | Current focus, recent changes, next steps | Every session (`/memory-update`) |
 | `memory/decision-log.md` | Dated log of decisions with rationale | When deciding |
 | `memory/progress.md` | What works, what's left, known issues | End of each sprint / milestone |

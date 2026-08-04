@@ -8,7 +8,9 @@ Facilitate **Sprint Planning**. The user is the Product Owner (PO); you propose,
    `scrum/DEFINITION-OF-DONE.md`, and the previous sprint file in `scrum/sprints/`
    (including its retrospective actions — they must be honored this sprint).
 2. **Propose a sprint goal.** One sentence of outcome (not a task list), derived from the
-   top of the ordered backlog. Ask the PO to confirm or adjust before continuing.
+   top of the ordered backlog and serving the mission in `memory/project-charter.md` —
+   say explicitly which success criterion it advances. Ask the PO to confirm or adjust
+   before continuing.
 3. **Select the commitment.** Walk the backlog top-down, taking only `refined` items
    (acceptance criteria + estimate present) that plausibly fit the sprint. If a top item
    is not refined, refine it now with the PO or skip it explicitly and say why.

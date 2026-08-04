@@ -5,9 +5,12 @@ description: Refine the product backlog — split, clarify, estimate and reorder
 Facilitate **Backlog Refinement** on `scrum/PRODUCT-BACKLOG.md`. The PO owns priorities;
 you own clarity and feasibility.
 
-1. Read the backlog, `memory/project-brief.md`, and `memory/active-context.md`.
+1. Read the backlog, `memory/project-charter.md` (the compass), and
+   `memory/active-context.md`.
 2. For each item near the top (aim for 1–2 sprints of `refined` work, no more):
-   - Rewrite vague items as user stories with a clear **value** statement.
+   - Rewrite vague items as user stories with a clear **value** statement — value means
+     serving the charter's mission and success criteria. Flag items that don't serve the
+     charter and ask the PO whether to drop them or amend the charter.
    - Add testable **acceptance criteria** (checkboxes).
    - Add an **estimate** (S/M/L or points) with one line of reasoning.
    - **Split** anything larger than half a sprint into independently valuable slices.

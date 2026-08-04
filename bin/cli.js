@@ -38,7 +38,7 @@ const FILES = {
   ],
   memory: [
     ['memory/README.md', 'memory/README.md'],
-    ['memory/project-brief.md', 'memory/project-brief.md'],
+    ['memory/project-charter.md', 'memory/project-charter.md'],
     ['memory/active-context.md', 'memory/active-context.md'],
     ['memory/decision-log.md', 'memory/decision-log.md'],
     ['memory/progress.md', 'memory/progress.md'],

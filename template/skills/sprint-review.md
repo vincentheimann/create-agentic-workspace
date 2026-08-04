@@ -11,6 +11,8 @@ Facilitate the **Sprint Review** for the current sprint (highest-numbered file i
    say so plainly and move it back to the backlog (top, unless the PO decides otherwise).
 3. Write the Review section of the sprint file:
    - What was achieved vs. the sprint goal (met / partly met / missed — and why).
+   - One line of progress against the success criteria in `memory/project-charter.md` —
+     the sprint served the mission, or say plainly that it didn't.
    - A short demo script or walkthrough the PO can follow to see the increment.
    - PO feedback and decisions (ask for them).
 4. Adapt the backlog: mark done items `done`, re-add unfinished work, capture new items

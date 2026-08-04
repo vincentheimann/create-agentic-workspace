@@ -47,8 +47,9 @@ guided flow — and ends with the first small piece of your idea actually runnin
 
 Prefer to go step by step? Type these as messages/commands inside the harness:
 
-1. **Introduce the project.** Say: *"Interview me to fill in `memory/project-brief.md`"*
-   — the agent asks you questions and writes the answers down.
+1. **Introduce the project.** Say: *"Interview me to fill in `memory/project-charter.md`"*
+   — the agent asks about your mission, vision and success criteria and writes them
+   down. This charter is the project's compass: every later ceremony checks against it.
 <!-- BEGIN:optimizers -->
 2. **Install the optimizers.** Run `/setup-optimizers` — the agent walks you through
    installing the context optimizers chosen for this workspace (see
