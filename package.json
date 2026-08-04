@@ -1,6 +1,6 @@
 {
   "name": "create-agentic-workspace",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Scaffold an agent-agnostic AI workspace (Claude Code, OpenCode, any AGENTS.md harness) with Scrum ceremonies, ADRs, living memory, a security baseline and context optimizers (Headroom, Ponytail, Graphify).",
   "type": "module",
   "bin": {

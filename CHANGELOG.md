@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/vincentheimann/create-agentic-workspace/compare/create-agentic-workspace-v0.2.0...create-agentic-workspace-v0.3.0) (2026-08-04)
+
+
+### Features
+
+* ceremony-delimited sprint cadence replaces fixed sprint length ([d200024](https://github.com/vincentheimann/create-agentic-workspace/commit/d200024e763187d3326420ef3882a712664b02f4))
+
 ## [0.2.0](https://github.com/vincentheimann/create-agentic-workspace/compare/create-agentic-workspace-v0.1.0...create-agentic-workspace-v0.2.0) (2026-08-04)
 
 
