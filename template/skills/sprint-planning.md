@@ -16,8 +16,9 @@ Facilitate **Sprint Planning**. The user is the Product Owner (PO); you propose,
    is not refined, refine it now with the PO or skip it explicitly and say why.
 4. **Create the sprint file.** Copy `scrum/sprints/_template.md` to
    `scrum/sprints/sprint-NNN.md` (next number, zero-padded). Fill sprint number, start
-   date (today), end date (start + {{SPRINT_LENGTH_WEEKS}} week(s)), goal, and the
-   commitment table. Carry retro actions into the commitment or the daily log as reminders.
+   date (today), goal, and the commitment table. There is no fixed end date — the sprint
+   ends when `/sprint-review` runs. {{SPRINT_END_RULE}} Carry retro actions into the
+   commitment or the standup log as reminders.
 5. **Sync state.** Mark committed items `committed` in the backlog. Update
    `memory/active-context.md`: current focus = the sprint goal.
 6. **Close.** Summarize to the PO: goal, committed items with estimates, first steps, and

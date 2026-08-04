@@ -83,7 +83,8 @@ Non-interactive answers (any of these skips the wizard; unset ones keep defaults
 made for AI agents scaffolding on a user's behalf):
   --name="…" --description="…" --stack="…"
   --harnesses=claude,opencode,agnostic
-  --sprint-weeks=1|2|3|4
+  --sprint-cadence=goal|session|calendar   (what ends a sprint; default: goal)
+  --sprint-weeks=1|2|3|4      (review cap for "goal", length for "calendar"; default: 2)
   --team=solo|team
   --modules=memory,adr,scrum,security,portfolio,release   (or "none")
                ("release" = release-please automation — needs a GitHub repo; off by default)
@@ -139,6 +140,13 @@ function applyOverrides(answers, opts) {
   if (opts.harnesses) answers.harnesses = parseList('harnesses', opts.harnesses, HARNESS_VALUES);
   if (opts.modules) answers.modules = parseList('modules', opts.modules, MODULE_VALUES);
   if (opts.optimizers) answers.optimizers = parseList('optimizers', opts.optimizers, OPTIMIZER_VALUES);
+  if (opts['sprint-cadence'] !== undefined) {
+    if (!['goal', 'session', 'calendar'].includes(opts['sprint-cadence'])) {
+      console.error('--sprint-cadence must be "goal", "session" or "calendar".');
+      process.exit(1);
+    }
+    answers.sprintCadence = opts['sprint-cadence'];
+  }
   if (opts['sprint-weeks'] !== undefined) {
     const weeks = Number(opts['sprint-weeks']);
     if (![1, 2, 3, 4].includes(weeks)) {
@@ -157,6 +165,28 @@ function applyOverrides(answers, opts) {
   }
 }
 
+// A sprint is delimited by ceremonies (/sprint-planning → /sprint-review), never by the
+// clock alone; these strings tell the generated workspace when the review is due.
+function sprintVars({ sprintCadence, sprintWeeks }) {
+  const weeks = sprintWeeks === 1 ? '1 week' : `${sprintWeeks} weeks`;
+  if (sprintCadence === 'session') {
+    return {
+      SPRINT_CADENCE: 'session-based (one working session per sprint)',
+      SPRINT_END_RULE: 'Run `/sprint-review` before the working session ends.',
+    };
+  }
+  if (sprintCadence === 'calendar') {
+    return {
+      SPRINT_CADENCE: `calendar (fixed ${weeks})`,
+      SPRINT_END_RULE: `Run \`/sprint-review\` ${weeks} after the sprint started; if the goal is Done earlier, pull the next refined backlog item into the sprint.`,
+    };
+  }
+  return {
+    SPRINT_CADENCE: `goal-based (capped at ${weeks})`,
+    SPRINT_END_RULE: `Run \`/sprint-review\` as soon as the sprint goal is Done — at the latest ${weeks} after the sprint started.`,
+  };
+}
+
 function hasCommand(cmd) {
   return spawnSync(cmd, ['--version'], { stdio: 'ignore', shell: process.platform === 'win32' }).status === 0;
 }
@@ -171,6 +201,7 @@ function defaults(targetArg) {
     description: 'A project with an agentic workspace.',
     stack: 'to be defined',
     harnesses: ['claude', 'opencode'],
+    sprintCadence: 'goal',
     sprintWeeks: 2,
     teamMode: 'Solo developer + AI agents',
     modules: ['memory', 'adr', 'scrum', 'security', 'portfolio'],
@@ -193,12 +224,22 @@ async function wizard(targetArg) {
       { label: 'OpenCode (Kimi K3 or other models)', value: 'opencode', selected: true },
       { label: 'Other AGENTS.md-compatible tool only', value: 'agnostic', selected: false },
     ]);
-    const sprintWeeks = await p.select('Sprint length?', [
-      { label: '1 week', value: 1 },
-      { label: '2 weeks', value: 2 },
-      { label: '3 weeks', value: 3 },
-      { label: '4 weeks', value: 4 },
-    ], 1);
+    const sprintCadence = await p.select('Sprint cadence — what ends a sprint?', [
+      { label: 'Goal-based — the sprint ends when its goal is Done, with a calendar cap (recommended)', value: 'goal' },
+      { label: 'Session-based — one working session = one sprint (fast solo + agent work)', value: 'session' },
+      { label: 'Calendar — classic fixed-length sprints (steady team cadence)', value: 'calendar' },
+    ]);
+    let sprintWeeks = d.sprintWeeks;
+    if (sprintCadence !== 'session') {
+      sprintWeeks = await p.select(
+        sprintCadence === 'goal' ? 'Calendar cap — hold the review at the latest after…' : 'Sprint length?',
+        [
+          { label: '1 week', value: 1 },
+          { label: '2 weeks', value: 2 },
+          { label: '3 weeks', value: 3 },
+          { label: '4 weeks', value: 4 },
+        ], 1);
+    }
     const teamMode = await p.select('Team setup?', [
       { label: 'Solo developer + AI agents (agents play Scrum roles)', value: 'Solo developer + AI agents' },
       { label: 'Small human team + AI agents', value: 'Small human team + AI agents' },
@@ -225,7 +266,7 @@ async function wizard(targetArg) {
       }
     }
     const gitInit = await p.confirm('Initialize a git repository with an initial commit?', true);
-    return { targetDir, projectName, description, stack, harnesses, sprintWeeks, teamMode, modules, optimizers, gitInit };
+    return { targetDir, projectName, description, stack, harnesses, sprintCadence, sprintWeeks, teamMode, modules, optimizers, gitInit };
   } finally {
     p.close();
   }
@@ -295,7 +336,7 @@ async function main() {
     PROJECT_NAME: answers.projectName,
     PROJECT_DESCRIPTION: answers.description,
     STACK: answers.stack,
-    SPRINT_LENGTH_WEEKS: answers.sprintWeeks,
+    ...sprintVars(answers),
     TEAM_MODE: answers.teamMode,
     DATE: new Date().toISOString().slice(0, 10),
     HARNESSES: answers.harnesses.join(', '),

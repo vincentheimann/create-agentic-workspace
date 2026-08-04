@@ -5,7 +5,7 @@ description: Run the Sprint Retrospective — inspect the way of working and com
 Facilitate the **Retrospective** for the just-reviewed sprint. Honest and blame-free —
 including about your own (the agent's) performance.
 
-1. Read the sprint file (daily log + review), the previous retro's actions, and
+1. Read the sprint file (standup log + review), the previous retro's actions, and
    `scrum/README.md` (working agreements).
 2. Check last retro's actions first: done or not? Unfinished actions either carry over
    explicitly or are dropped explicitly — never silently.

@@ -42,8 +42,10 @@ I want to start a new project using the agentic workspace kit from
 https://github.com/vincentheimann/create-agentic-workspace.
 
 1. Interview me briefly (one question at a time): project name, one-line description,
-   main language/stack, which harnesses I use (claude and/or opencode), sprint length
-   in weeks (1-4), solo or team, which modules I want (memory, adr, scrum, security,
+   main language/stack, which harnesses I use (claude and/or opencode), sprint cadence
+   (goal = sprint ends when its goal is Done, capped at 1-4 weeks — the default;
+   session = one working session per sprint; calendar = classic fixed 1-4 weeks),
+   solo or team, which modules I want (memory, adr, scrum, security,
    portfolio — default: all; plus release = release-please automation, default off,
    only useful if the project will live on GitHub) and which context optimizers
    (headroom, ponytail, graphify — default: all). Suggest sensible defaults so I can
@@ -54,7 +56,7 @@ https://github.com/vincentheimann/create-agentic-workspace.
 
    npx github:vincentheimann/create-agentic-workspace <dir> --name="…" \
      --description="…" --stack="…" --harnesses=claude,opencode \
-     --sprint-weeks=2 --team=solo \
+     --sprint-cadence=goal --sprint-weeks=2 --team=solo \
      --modules=memory,adr,scrum,security,portfolio \
      --optimizers=headroom,ponytail,graphify
 
@@ -152,7 +154,8 @@ node create-agentic-workspace/bin/cli.js my-project
 ```
 
 The wizard asks about: project name & description, stack, target harnesses, sprint
-length, team mode, modules, optimizers, and git init. **Press Enter to accept the
+cadence (what ends a sprint — the goal being Done, the working session, or the
+calendar), team mode, modules, optimizers, and git init. **Press Enter to accept the
 defaults** — the defaults produce a full workspace with everything enabled except
 release automation, which is off by default because it needs a GitHub repository
 (select the "Release automation" module, or pass `--modules=...,release`, to add it).
@@ -170,8 +173,8 @@ everything else (harness setup, the step-by-step alternative, the command cheat 
 
 Flags for non-interactive use: `--yes` (all defaults), `--offline` (skip the
 portfolio-agent download), `--no-git`, `--help`, `--version`. Every wizard answer also
-exists as a flag (`--name`, `--description`, `--stack`, `--harnesses`, `--sprint-weeks`,
-`--team`, `--modules`, `--optimizers`) — passing any of them skips the wizard, which is
+exists as a flag (`--name`, `--description`, `--stack`, `--harnesses`,
+`--sprint-cadence`, `--sprint-weeks`, `--team`, `--modules`, `--optimizers`) — passing any of them skips the wizard, which is
 how an AI agent scaffolds on your behalf (see the kickstart prompt above). Run `--help`
 for the accepted values.
 
@@ -214,7 +217,7 @@ flowchart TD
         E --> F["Build stories<br/>Definition of Done applies"]
         F --> G["/standup<br/>done · next · blockers"]
         G -->|"sprint continues"| F
-        G -->|"sprint ends"| H["/sprint-review<br/>honest Done check · demo ·<br/>backlog adapted"]
+        G -->|"goal Done or cap reached"| H["/sprint-review<br/>honest Done check · demo ·<br/>backlog adapted — ends the sprint"]
         H --> I["/retrospective<br/>1–3 actions → working agreements"]
         I -->|"actions feed the next sprint"| D
     end
@@ -252,7 +255,7 @@ slash command you type inside your harness; the agent does the bookkeeping.
 |---|---|---|---|
 | `/backlog-refinement` | Brain-dump ideas, answer questions, confirm the order | Turns ideas into user stories with acceptance criteria and estimates, splits big ones | `scrum/PRODUCT-BACKLOG.md` |
 | `/sprint-planning` | Confirm/adjust the proposed sprint goal | Selects refined stories that fit the sprint, creates the sprint file | `scrum/sprints/sprint-NNN.md`, backlog statuses |
-| `/standup` | Read 3 bullets, unblock if needed | Checks git log + story status, logs done / next / blockers | Daily log in the sprint file |
+| `/standup` | Read 3 bullets, unblock if needed | Checks git log + story status, logs done / next / blockers | Standup log in the sprint file |
 | `/sprint-review` | Follow the demo, accept or reject stories, give feedback | Verifies each story honestly against the Definition of Done, runs tests, adapts the backlog | Sprint file (Review), backlog, `memory/progress.md` |
 | `/retrospective` | Discuss what to keep/change, approve 1–3 actions | Checks last retro's actions, records new ones, updates working agreements | Sprint file (Retro), `scrum/README.md`, `memory/decision-log.md` |
 
@@ -269,16 +272,19 @@ if you prefer the full ceremony from day one — a first sprint, concretely:
 3. **Work** — ask the agent to implement the first story. "Done" is defined by
    `scrum/DEFINITION-OF-DONE.md` (tests pass, no secrets, memory updated, …) — not by
    the agent's optimism.
-4. **`/standup`** — once per working day (for a solo developer: once per working
-   session). Three bullets, sprint file updated, risks surfaced early.
-5. **`/sprint-review`** at sprint end — the agent demos what's genuinely Done, moves
-   unfinished work back to the backlog, and updates `memory/progress.md`.
+4. **`/standup`** — once per working session (at least daily when work spans days).
+   Three bullets, sprint file updated, risks surfaced early.
+5. **`/sprint-review`** when the sprint goal is Done (or the cadence cap is reached) —
+   the agent demos what's genuinely Done, moves unfinished work back to the backlog,
+   and updates `memory/progress.md`. Running the review is what ends the sprint.
 6. **`/retrospective`** — agree on 1–3 improvement actions; they're carried into the
    next sprint automatically because `/sprint-planning` reads them.
 7. Loop back to step 1 (or straight to planning if the backlog is still refined).
 
-The cadence is yours: ceremonies run when *you* trigger them, so a "2-week sprint" can
-compress into an evening for a hobby project. The same walkthrough ships inside every
+Sprint boundaries are ceremonies, not dates: a sprint starts at `/sprint-planning` and
+ends at `/sprint-review`, so with AI agents a sprint can compress into a single evening —
+the weeks number you choose at scaffold time is only the latest point to hold the review
+(or, in calendar cadence, a fixed length). The same walkthrough ships inside every
 generated workspace as `GETTING-STARTED.md`, so you don't need this README open while
 working. And because ceremonies are plain markdown skills, they run identically in any
 harness that supports commands — or can be followed manually in one that doesn't.

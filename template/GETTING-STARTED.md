@@ -60,8 +60,8 @@ Prefer to go step by step? Type these as messages/commands inside the harness:
    build. The agent turns it into ordered, estimated user stories.
 4. **Start Sprint 1.** Run `/sprint-planning` — you agree on a sprint goal and the agent
    creates the sprint file.
-5. **Work.** Ask the agent to implement the first story. Each day, `/standup` keeps the
-   sprint log honest.
+5. **Work.** Ask the agent to implement the first story. Each working session,
+   `/standup` keeps the sprint log honest.
 <!-- END:scrum -->
 <!-- BEGIN:memory -->
 6. **Before you stop:** run `/memory-update` so the next session (even in a different
@@ -74,7 +74,7 @@ Prefer to go step by step? Type these as messages/commands inside the harness:
 flowchart LR
     K["/kickoff<br/>first session only"] --> R["/backlog-refinement"]
     R --> P["/sprint-planning"]
-    P --> W["build + /standup daily"]
+    P --> W["build + /standup each session"]
     W --> V["/sprint-review"]
     V --> T["/retrospective"]
     T --> R
@@ -92,8 +92,8 @@ update is what lets you stop anytime and resume later without losing the thread.
 <!-- BEGIN:scrum -->
 | `/backlog-refinement` | Clarify, split, estimate and order backlog items | Whenever ideas pile up |
 | `/sprint-planning` | Agree a sprint goal, commit stories, create the sprint file | Sprint start |
-| `/standup` | 3-bullet daily check against the sprint goal | Daily |
-| `/sprint-review` | Verify what's really Done, demo, adapt the backlog | Sprint end |
+| `/standup` | 3-bullet check against the sprint goal | Each working session |
+| `/sprint-review` | Verify what's really Done, demo, adapt the backlog — this ends the sprint | When the sprint goal is Done (or the cap is reached) |
 | `/retrospective` | Improve the way of working (1–3 concrete actions) | After review |
 <!-- END:scrum -->
 <!-- BEGIN:adr -->
@@ -145,6 +145,8 @@ paste its instructions as a message.
   your priorities.
 - Small sprints, honest reviews: "Done except…" is not Done
   (see `scrum/DEFINITION-OF-DONE.md`).
+- A sprint ends when you run `/sprint-review`, not on a calendar date — with AI agents a
+  sprint can fit in a single evening or span weeks; both are fine.
 - End every session with `/memory-update`. It's the difference between an agent that
   remembers your project and one that starts from zero.
 - **Ship in session one.** End your first session with something that runs, however

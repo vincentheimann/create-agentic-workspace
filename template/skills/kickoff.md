@@ -33,8 +33,9 @@ the paperwork is complete. Momentum first, ceremony second.
 <!-- BEGIN:memory -->
    Update the living memory per `.agents/skills/memory-update.md`.
 <!-- END:memory -->
-   Tell the user what tomorrow looks like: `/standup` to continue the sprint,
-   `/backlog-refinement` when new ideas pile up. One sentence, then stop.
+   Tell the user what the next session looks like: `/standup` to continue the sprint
+   (or `/sprint-review` if the sprint goal is already Done — the review is what ends a
+   sprint), `/backlog-refinement` when new ideas pile up. One sentence, then stop.
 
 If the workspace is not fresh (the charter is filled, sprints exist), say so and point the
 user to `/standup` or `/sprint-planning` instead of redoing the kickoff.

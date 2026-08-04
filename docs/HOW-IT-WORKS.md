@@ -15,7 +15,7 @@ flowchart TB
         AD["Decision records<br/>docs/adr/ + memory/decision-log.md"]
     end
 
-    subgraph sprint ["Layer 2 · Sprint loop — every 1–4 weeks"]
+    subgraph sprint ["Layer 2 · Sprint loop — per sprint (one session to a few weeks)"]
         R["/backlog-refinement"] --> P["/sprint-planning"]
         P --> B["Build the committed stories"]
         B --> V["/sprint-review"]
@@ -31,7 +31,7 @@ flowchart TB
 
     CH -->|"defines what value means"| R
     CH -->|"sprint goal must advance<br/>a success criterion"| P
-    B ---|"one sprint =<br/>many sessions"| session
+    B ---|"one sprint =<br/>one or more sessions"| session
     B -.->|"significant choices<br/>→ /adr-new"| AD
     T -.->|"may propose charter changes<br/>— the PO decides"| CH
 ```
@@ -40,8 +40,11 @@ flowchart TB
   compass: refinement uses it to judge value, planning must say which success criterion
   a sprint goal advances, and ADRs that touch direction cite it. It changes only by
   explicit Product Owner decision — usually because a retrospective surfaced a reason.
-- **Layer 2 — Sprint loop** moves in weeks. It turns the charter into ordered work and
-  honest increments; the retrospective's actions feed the next turn of the loop.
+- **Layer 2 — Sprint loop** moves at the speed of the work, not the calendar: a sprint
+  starts at `/sprint-planning` and ends at `/sprint-review` — with AI agents that can be
+  a single intense session or a few weeks (the cadence chosen at scaffold time says when
+  the review is due). It turns the charter into ordered work and honest increments; the
+  retrospective's actions feed the next turn of the loop.
 - **Layer 3 — Session loop** moves in hours. It's what makes the whole thing survive
   interruptions: every session starts by reading the active context and ends by writing
   it, so any harness — or any model — can pick up where the last one stopped.
@@ -57,8 +60,8 @@ flowchart TD
     C --> D["Answer the wizard<br/>(Enter = good defaults)"]
     D --> E["cd my-project<br/>run claude or opencode"]
     E --> F["/kickoff<br/>charter interview → mini-backlog →<br/>Sprint 1 → first slice running today"]
-    F --> G["Daily rhythm<br/>/standup → build → /memory-update"]
-    G -->|"sprint ends"| H["/sprint-review<br/>+ /retrospective"]
+    F --> G["Session rhythm<br/>/standup → build → /memory-update"]
+    G -->|"goal Done or cap reached"| H["/sprint-review<br/>+ /retrospective"]
     H -->|"next sprint"| I["/sprint-planning<br/>(+ /backlog-refinement as needed)"]
     I --> G
     H -.->|"milestone reached"| J["/portfolio — case study<br/>/security-review — before release"]

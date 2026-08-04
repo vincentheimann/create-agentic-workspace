@@ -3,13 +3,15 @@ description: Run the Sprint Review — inspect the increment against the sprint 
 ---
 
 Facilitate the **Sprint Review** for the current sprint (highest-numbered file in
-`scrum/sprints/`).
+`scrum/sprints/`). Running this ceremony is what ends the sprint — whether it lasted a
+single session or several weeks.
 
 1. Read the sprint file, `scrum/DEFINITION-OF-DONE.md`, and the backlog.
 2. For each committed story, verify Done honestly against the Definition of Done —
    run the test suite if one exists. A story that fails any DoD item is **not done**;
    say so plainly and move it back to the backlog (top, unless the PO decides otherwise).
-3. Write the Review section of the sprint file:
+3. Write the Review section of the sprint file, dated today (that date is the sprint's
+   end):
    - What was achieved vs. the sprint goal (met / partly met / missed — and why).
    - One line of progress against the success criteria in `memory/project-charter.md` —
      the sprint served the mission, or say plainly that it didn't.

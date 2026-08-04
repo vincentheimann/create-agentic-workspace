@@ -47,7 +47,11 @@ Prune aggressively: stale content in memory is worse than no content.
 <!-- BEGIN:scrum -->
 ## Scrum protocol
 
-- Sprint length: **{{SPRINT_LENGTH_WEEKS}} week(s)**. Team mode: **{{TEAM_MODE}}**.
+- Sprint cadence: **{{SPRINT_CADENCE}}**. Team mode: **{{TEAM_MODE}}**.
+- A sprint is delimited by ceremonies, not by the clock: it starts when
+  `/sprint-planning` creates the sprint file and ends when `/sprint-review` runs.
+  A sprint may fit in a single working session or span weeks — elapsed time is
+  not a measure of progress. {{SPRINT_END_RULE}}
 - The user is the Product Owner. The agent facilitates ceremonies and can act as
   developer; it never invents Product Owner priorities.
 - Artifacts live in `scrum/`: `PRODUCT-BACKLOG.md` (ordered), `DEFINITION-OF-DONE.md`,
@@ -59,7 +63,7 @@ Ceremonies are slash commands (harness-portable, human-triggered):
 |---|---|---|
 | Backlog refinement | `/backlog-refinement` | As needed |
 | Sprint planning | `/sprint-planning` | Sprint start |
-| Daily scrum | `/standup` | Daily |
+| Standup | `/standup` | Each working session (at least daily when work spans days) |
 | Sprint review | `/sprint-review` | Sprint end |
 | Retrospective | `/retrospective` | After review |
 

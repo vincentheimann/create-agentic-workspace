@@ -54,10 +54,16 @@ const agents = fs.readFileSync(path.join(target, 'AGENTS.md'), 'utf8');
 if (agents.includes('<!-- BEGIN:')) throw new Error('AGENTS.md still contains section markers');
 if (agents.includes('{{PROJECT_NAME}}')) throw new Error('AGENTS.md still contains unrendered vars');
 if (!agents.includes('Scrum protocol')) throw new Error('AGENTS.md missing Scrum section');
+if (!agents.includes('goal-based (capped at 2 weeks)')) {
+  throw new Error('AGENTS.md missing the default sprint cadence');
+}
 
 const sprint = fs.readFileSync(path.join(target, 'scrum', 'sprints', '_template.md'), 'utf8');
 if (!sprint.includes('{{SPRINT_NUMBER}}')) {
   throw new Error('sprint template placeholders must survive scaffolding');
+}
+if (sprint.includes('{{SPRINT_CADENCE}}') || sprint.includes('{{SPRINT_END_RULE}}')) {
+  throw new Error('sprint template cadence vars must be rendered at scaffold time');
 }
 
 const started = fs.readFileSync(path.join(target, 'GETTING-STARTED.md'), 'utf8');
@@ -128,6 +134,29 @@ if (releasing.includes('{{PROJECT_NAME}}')) throw new Error('RELEASING.md not re
 const workflow = fs.readFileSync(path.join(flagged, '.github', 'workflows', 'release-please.yml'), 'utf8');
 if (!workflow.includes('googleapis/release-please-action')) throw new Error('release workflow content wrong');
 fs.rmSync(flagged, { recursive: true, force: true });
+
+// --sprint-cadence must shape the scrum files.
+const cadenced = fs.mkdtempSync(path.join(os.tmpdir(), 'caw-cadence-'));
+const cad = spawnSync(
+  process.execPath,
+  [path.join(root, 'bin', 'cli.js'), cadenced, '--offline', '--no-git', '--sprint-cadence=session', '--modules=scrum', '--optimizers=none'],
+  { encoding: 'utf8' }
+);
+if (cad.status !== 0) throw new Error('cadence-driven scaffold failed');
+const cadencedAgents = fs.readFileSync(path.join(cadenced, 'AGENTS.md'), 'utf8');
+if (!cadencedAgents.includes('session-based (one working session per sprint)')) {
+  throw new Error('--sprint-cadence=session not rendered into AGENTS.md');
+}
+fs.rmSync(cadenced, { recursive: true, force: true });
+
+const badCadence = spawnSync(
+  process.execPath,
+  [path.join(root, 'bin', 'cli.js'), path.join(os.tmpdir(), 'caw-never'), '--sprint-cadence=fortnight', '--offline', '--no-git'],
+  { encoding: 'utf8' }
+);
+if (badCadence.status === 0 || !badCadence.stderr.includes('sprint-cadence')) {
+  throw new Error('invalid --sprint-cadence value not rejected');
+}
 
 // Invalid flag values must fail fast with a clear error.
 const bad = spawnSync(

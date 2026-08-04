@@ -1,4 +1,7 @@
-# Sprint {{SPRINT_NUMBER}} — {{SPRINT_START}} → {{SPRINT_END}}
+# Sprint {{SPRINT_NUMBER}} — started {{SPRINT_START}}
+
+> Cadence: {{SPRINT_CADENCE}}. This sprint ends when `/sprint-review` runs, not on a
+> calendar date. {{SPRINT_END_RULE}}
 
 ## Sprint goal
 
@@ -10,9 +13,9 @@
 |---|---|---|---|
 | PB-… | … | … | committed |
 
-## Daily log
+## Standup log
 
-> `/standup` appends one entry per day.
+> `/standup` appends one entry per working session (at least one per day worked).
 
 ### {{SPRINT_START}}
 
@@ -20,9 +23,10 @@
 - **Next:** —
 - **Blockers / risks to the goal:** —
 
-## Review ({{SPRINT_END}})
+## Review
 
-> Filled by `/sprint-review`: what was demonstrated, PO feedback, backlog changes.
+> Filled by `/sprint-review` (dated when it runs — that date is the sprint's end): what
+> was demonstrated, PO feedback, backlog changes.
 
 ## Retrospective
 
