@@ -44,8 +44,10 @@ https://github.com/vincentheimann/create-agentic-workspace.
 1. Interview me briefly (one question at a time): project name, one-line description,
    main language/stack, which harnesses I use (claude and/or opencode), sprint length
    in weeks (1-4), solo or team, which modules I want (memory, adr, scrum, security,
-   portfolio — default: all) and which context optimizers (headroom, ponytail,
-   graphify — default: all). Suggest sensible defaults so I can just say "yes".
+   portfolio — default: all; plus release = release-please automation, default off,
+   only useful if the project will live on GitHub) and which context optimizers
+   (headroom, ponytail, graphify — default: all). Suggest sensible defaults so I can
+   just say "yes".
 
 2. Scaffold it with ONE non-interactive command (do NOT run the bare interactive
    wizard — it will hang in your shell). Fill in my answers:
@@ -84,6 +86,10 @@ One interactive command gives you:
   kept in sync with `/memory-update`, shared across sessions and harnesses.
 - **ADRs** (`docs/adr/`, MADR-lite) via `/adr-new`.
 - **Security baseline** (`security/SECURITY-BASELINE.md`) audited by `/security-review`.
+- **Release automation** (optional, needs GitHub) —
+  [release-please](https://github.com/googleapis/release-please) turns Conventional
+  Commits into `CHANGELOG.md` + GitHub Releases via a reviewable release PR; `/release`
+  guides cutting one (`docs/RELEASING.md` explains the flow).
 - **Portfolio plugin** — vendors the [portfolio-agent](https://github.com/vincentheimann/portfolio-agent)
   so `/portfolio` builds an evidence-based `PORTFOLIO.md` case study.
 - **Context optimizers** — guided setup (`/setup-optimizers`) for
@@ -147,7 +153,9 @@ node create-agentic-workspace/bin/cli.js my-project
 
 The wizard asks about: project name & description, stack, target harnesses, sprint
 length, team mode, modules, optimizers, and git init. **Press Enter to accept the
-defaults** — the defaults produce a full workspace with everything enabled.
+defaults** — the defaults produce a full workspace with everything enabled except
+release automation, which is off by default because it needs a GitHub repository
+(select the "Release automation" module, or pass `--modules=...,release`, to add it).
 
 Then:
 
@@ -184,7 +192,10 @@ my-project/
 ├── docs/adr/                  # architecture decision records
 ├── scrum/                     # backlog, DoD, sprints/, working agreements
 ├── security/SECURITY-BASELINE.md
-└── optimizers/OPTIMIZERS.md   # chosen optimizers + real install commands
+├── optimizers/OPTIMIZERS.md   # chosen optimizers + real install commands
+├── .github/workflows/release-please.yml   # release automation   (if selected)
+├── release-please-config.json             # release-please setup (if selected)
+└── docs/RELEASING.md                      # how releases work    (if selected)
 ```
 
 ## Running the Scrum loop

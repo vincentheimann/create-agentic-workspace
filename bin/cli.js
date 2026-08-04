@@ -25,6 +25,7 @@ const SKILLS = {
   adr: ['adr-new'],
   scrum: ['sprint-planning', 'standup', 'backlog-refinement', 'sprint-review', 'retrospective'],
   security: ['security-review'],
+  release: ['release'],
   portfolio: ['portfolio'],
   optimizers: ['setup-optimizers'],
 };
@@ -55,6 +56,12 @@ const FILES = {
     ['scrum/sprints/_template.md', 'scrum/sprints/_template.md'],
   ],
   security: [['security/SECURITY-BASELINE.md', 'security/SECURITY-BASELINE.md']],
+  release: [
+    ['release/release-please.yml', '.github/workflows/release-please.yml'],
+    ['release/release-please-config.json', 'release-please-config.json'],
+    ['release/release-please-manifest.json', '.release-please-manifest.json'],
+    ['release/RELEASING.md', 'docs/RELEASING.md'],
+  ],
   optimizers: [['optimizers/OPTIMIZERS.md', 'optimizers/OPTIMIZERS.md']],
 };
 
@@ -78,13 +85,14 @@ made for AI agents scaffolding on a user's behalf):
   --harnesses=claude,opencode,agnostic
   --sprint-weeks=1|2|3|4
   --team=solo|team
-  --modules=memory,adr,scrum,security,portfolio   (or "none")
+  --modules=memory,adr,scrum,security,portfolio,release   (or "none")
+               ("release" = release-please automation — needs a GitHub repo; off by default)
   --optimizers=headroom,ponytail,graphify         (or "none")
 
 Full documentation: https://github.com/vincentheimann/create-agentic-workspace`;
 
 const HARNESS_VALUES = ['claude', 'opencode', 'agnostic'];
-const MODULE_VALUES = ['memory', 'adr', 'scrum', 'security', 'portfolio'];
+const MODULE_VALUES = ['memory', 'adr', 'scrum', 'security', 'portfolio', 'release'];
 const OPTIMIZER_VALUES = ['headroom', 'ponytail', 'graphify'];
 
 function parseArgs(argv) {
@@ -200,6 +208,7 @@ async function wizard(targetArg) {
       { label: 'ADRs (docs/adr/ + /adr-new)', value: 'adr', selected: true },
       { label: 'Scrum ceremonies (/sprint-planning, /standup, /sprint-review, /retrospective, /backlog-refinement)', value: 'scrum', selected: true },
       { label: 'Security baseline (/security-review)', value: 'security', selected: true },
+      { label: 'Release automation (release-please: Conventional Commits → CHANGELOG + GitHub Releases; needs a GitHub repo)', value: 'release', selected: false },
     ]);
     const wantPortfolio = await p.confirm('Add the Portfolio agent (generates PORTFOLIO.md case studies)?', true);
     if (wantPortfolio) modules.push('portfolio');

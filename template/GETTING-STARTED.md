@@ -105,6 +105,9 @@ update is what lets you stop anytime and resume later without losing the thread.
 <!-- BEGIN:security -->
 | `/security-review` | Audit the repo against the security baseline | Before releases |
 <!-- END:security -->
+<!-- BEGIN:release -->
+| `/release` | Review the release-please PR and cut a release (needs GitHub) | When you want to ship |
+<!-- END:release -->
 <!-- BEGIN:portfolio -->
 | `/portfolio` | Build/refresh `PORTFOLIO.md`, an evidence-based case study | After milestones |
 <!-- END:portfolio -->
@@ -130,6 +133,9 @@ paste its instructions as a message.
 <!-- BEGIN:security -->
 - `security/` — the security baseline and review findings
 <!-- END:security -->
+<!-- BEGIN:release -->
+- `docs/RELEASING.md` — how automated releases and release notes work
+<!-- END:release -->
 - `.agents/skills/` — the source of every command above (edit here, copy to
   `.claude/commands/` / `.opencode/command/`)
 

@@ -45,6 +45,11 @@ for (const rel of mustExist) {
   if (!fs.existsSync(path.join(target, rel))) throw new Error(`missing: ${rel}`);
 }
 
+// The release module needs GitHub, so it must stay OFF by default.
+if (fs.existsSync(path.join(target, '.github'))) {
+  throw new Error('release module files generated despite being off by default');
+}
+
 const agents = fs.readFileSync(path.join(target, 'AGENTS.md'), 'utf8');
 if (agents.includes('<!-- BEGIN:')) throw new Error('AGENTS.md still contains section markers');
 if (agents.includes('{{PROJECT_NAME}}')) throw new Error('AGENTS.md still contains unrendered vars');
@@ -92,7 +97,7 @@ const fr = spawnSync(
     '--name=Flagged App',
     '--stack=Python',
     '--harnesses=claude',
-    '--modules=memory,adr',
+    '--modules=memory,adr,release',
     '--optimizers=none',
   ],
   { encoding: 'utf8' }
@@ -107,6 +112,21 @@ if (flaggedAgents.includes('Scrum protocol')) throw new Error('--modules did not
 if (fs.existsSync(path.join(flagged, 'scrum'))) throw new Error('scrum/ generated despite --modules');
 if (fs.existsSync(path.join(flagged, 'optimizers'))) throw new Error('optimizers/ generated despite --optimizers=none');
 if (fs.existsSync(path.join(flagged, '.opencode'))) throw new Error('.opencode/ generated despite --harnesses=claude');
+for (const rel of [
+  '.github/workflows/release-please.yml',
+  'release-please-config.json',
+  '.release-please-manifest.json',
+  'docs/RELEASING.md',
+  '.agents/skills/release.md',
+  '.claude/commands/release.md',
+]) {
+  if (!fs.existsSync(path.join(flagged, rel))) throw new Error(`release module missing: ${rel}`);
+}
+if (!flaggedAgents.includes('Release automation')) throw new Error('AGENTS.md missing release section');
+const releasing = fs.readFileSync(path.join(flagged, 'docs', 'RELEASING.md'), 'utf8');
+if (releasing.includes('{{PROJECT_NAME}}')) throw new Error('RELEASING.md not rendered');
+const workflow = fs.readFileSync(path.join(flagged, '.github', 'workflows', 'release-please.yml'), 'utf8');
+if (!workflow.includes('googleapis/release-please-action')) throw new Error('release workflow content wrong');
 fs.rmSync(flagged, { recursive: true, force: true });
 
 // Invalid flag values must fail fast with a clear error.
