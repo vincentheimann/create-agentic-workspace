@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/vincentheimann/create-agentic-workspace/compare/create-agentic-workspace-v0.4.0...create-agentic-workspace-v0.4.1) (2026-08-05)
+
+
+### Documentation
+
+* document /scrum-health in README and generated GETTING-STARTED ([a51f8bc](https://github.com/vincentheimann/create-agentic-workspace/commit/a51f8bce72ae9ccd84ded5b6a0560a80debf83f9))
+
 ## [0.4.0](https://github.com/vincentheimann/create-agentic-workspace/compare/create-agentic-workspace-v0.3.0...create-agentic-workspace-v0.4.0) (2026-08-05)
 
 
