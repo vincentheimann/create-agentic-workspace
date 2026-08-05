@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/vincentheimann/create-agentic-workspace/compare/create-agentic-workspace-v0.4.1...create-agentic-workspace-v0.4.2) (2026-08-05)
+
+
+### Documentation
+
+* add /scrum-health to the user-path diagram in HOW-IT-WORKS ([8adbf70](https://github.com/vincentheimann/create-agentic-workspace/commit/8adbf708d6c0994bd6417aaffec3e3448c8b043d))
+
 ## [0.4.1](https://github.com/vincentheimann/create-agentic-workspace/compare/create-agentic-workspace-v0.4.0...create-agentic-workspace-v0.4.1) (2026-08-05)
 
 
