@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/vincentheimann/create-agentic-workspace/compare/create-agentic-workspace-v0.3.0...create-agentic-workspace-v0.4.0) (2026-08-05)
+
+
+### Features
+
+* add /scrum-health skill — sprint/backlog/memory consistency audit ([b5a30fe](https://github.com/vincentheimann/create-agentic-workspace/commit/b5a30fece0ff36a96214f8c4973f31e67d12e238))
+
 ## [0.3.0](https://github.com/vincentheimann/create-agentic-workspace/compare/create-agentic-workspace-v0.2.0...create-agentic-workspace-v0.3.0) (2026-08-04)
 
 
