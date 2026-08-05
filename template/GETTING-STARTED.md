@@ -95,6 +95,7 @@ update is what lets you stop anytime and resume later without losing the thread.
 | `/standup` | 3-bullet check against the sprint goal | Each working session |
 | `/sprint-review` | Verify what's really Done, demo, adapt the backlog — this ends the sprint | When the sprint goal is Done (or the cap is reached) |
 | `/retrospective` | Improve the way of working (1–3 concrete actions) | After review |
+| `/scrum-health` | Audit sprint/backlog/memory consistency — nothing left behind | At review/retro or on demand |
 <!-- END:scrum -->
 <!-- BEGIN:adr -->
 | `/adr-new` | Record an architecture decision | When deciding something significant |

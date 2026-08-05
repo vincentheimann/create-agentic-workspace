@@ -81,8 +81,8 @@ One interactive command gives you:
 - **`AGENTS.md` as single source of truth** — harness files (`CLAUDE.md`,
   `.claude/commands/`, `.opencode/command/`) are generated mirrors of `.agents/skills/`.
 - **Scrum loops with ceremonies** as slash commands: `/backlog-refinement`,
-  `/sprint-planning`, `/standup`, `/sprint-review`, `/retrospective` — plus product
-  backlog, Definition of Done and per-sprint files in `scrum/`.
+  `/sprint-planning`, `/standup`, `/sprint-review`, `/retrospective`, `/scrum-health` —
+  plus product backlog, Definition of Done and per-sprint files in `scrum/`.
 - **Living memory** (`memory/`) — project charter (mission, vision, success criteria —
   the compass every ceremony checks against), active context, decision log, progress —
   kept in sync with `/memory-update`, shared across sessions and harnesses.
@@ -229,11 +229,12 @@ flowchart TD
     end
 
     subgraph ondemand ["4 · On demand"]
-        O["/adr-new<br/>significant decisions"] ~~~ P["/security-review<br/>before releases"] ~~~ Q["/portfolio<br/>after milestones"]
+        O["/adr-new<br/>significant decisions"] ~~~ P["/security-review<br/>before releases"] ~~~ Q["/portfolio<br/>after milestones"] ~~~ R["/scrum-health<br/>nothing-left-behind audit"]
     end
 
     F -.-> O
     H -.-> Q
+    H -.-> R
 
     sprintloop ~~~ memorybox
 ```
@@ -258,6 +259,7 @@ slash command you type inside your harness; the agent does the bookkeeping.
 | `/standup` | Read 3 bullets, unblock if needed | Checks git log + story status, logs done / next / blockers | Standup log in the sprint file |
 | `/sprint-review` | Follow the demo, accept or reject stories, give feedback | Verifies each story honestly against the Definition of Done, runs tests, adapts the backlog | Sprint file (Review), backlog, `memory/progress.md` |
 | `/retrospective` | Discuss what to keep/change, approve 1–3 actions | Checks last retro's actions, records new ones, updates working agreements | Sprint file (Retro), `scrum/README.md`, `memory/decision-log.md` |
+| `/scrum-health` | Read the health report, decide on substantive fixes | Audits sprint/backlog/memory consistency with evidence, fixes trivial bookkeeping, reports the rest | Sprint file, backlog, `memory/` (bookkeeping fixes only) |
 
 On a brand-new project, `/kickoff` compresses the first pass of this loop into one
 guided session that ends with the smallest slice of your idea running. After that — or
