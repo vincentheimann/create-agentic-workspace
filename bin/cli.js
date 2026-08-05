@@ -23,7 +23,7 @@ const SKILLS = {
   core: ['kickoff'],
   memory: ['memory-update'],
   adr: ['adr-new'],
-  scrum: ['sprint-planning', 'standup', 'backlog-refinement', 'sprint-review', 'retrospective'],
+  scrum: ['sprint-planning', 'standup', 'backlog-refinement', 'sprint-review', 'retrospective', 'scrum-health'],
   security: ['security-review'],
   release: ['release'],
   portfolio: ['portfolio'],

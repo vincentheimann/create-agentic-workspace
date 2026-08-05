@@ -66,6 +66,7 @@ Ceremonies are slash commands (harness-portable, human-triggered):
 | Standup | `/standup` | Each working session (at least daily when work spans days) |
 | Sprint review | `/sprint-review` | Sprint end |
 | Retrospective | `/retrospective` | After review |
+| Scrum health check | `/scrum-health` | At review/retro or on demand |
 
 An increment only counts as Done when it satisfies `scrum/DEFINITION-OF-DONE.md`.
 <!-- END:scrum -->
@@ -138,6 +139,7 @@ install them (`/setup-optimizers` walks through it):
 - `/kickoff` — zero-to-first-feature start for a fresh project (idea → Sprint 1 → smallest working slice, in one session)
 <!-- BEGIN:scrum -->
 - `/sprint-planning`, `/standup`, `/backlog-refinement`, `/sprint-review`, `/retrospective` — Scrum ceremonies
+- `/scrum-health` — consistency audit across sprint/backlog/memory (nothing left behind)
 <!-- END:scrum -->
 <!-- BEGIN:adr -->
 - `/adr-new` — record an architecture decision
