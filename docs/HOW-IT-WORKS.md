@@ -64,7 +64,7 @@ flowchart TD
     G -->|"goal Done or cap reached"| H["/sprint-review<br/>+ /retrospective"]
     H -->|"next sprint"| I["/sprint-planning<br/>(+ /backlog-refinement as needed)"]
     I --> G
-    H -.->|"milestone reached"| J["/portfolio — case study<br/>/security-review — before release"]
+    H -.->|"milestone reached"| J["/portfolio — case study<br/>/security-review — before release<br/>/scrum-health — nothing-left-behind audit"]
 ```
 
 The two moments that matter most:
