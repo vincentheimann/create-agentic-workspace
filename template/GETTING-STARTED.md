@@ -3,7 +3,9 @@
 Welcome! This project was set up with an **agentic workspace**: a set of files that tell
 AI coding agents how to work here — with a Scrum process, a persistent memory, and
 decision records. This guide is for you, the human. You don't need any prior experience
-with AI agents.
+with AI agents. (Completely new to all of this? The kit's
+[Friendly Guide](https://github.com/vincentheimann/create-agentic-workspace/blob/main/docs/FRIENDLY-GUIDE.md)
+explains the basics and every term, with no technical background needed.)
 
 ## 1. Install a harness (once)
 

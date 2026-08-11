@@ -1,5 +1,9 @@
 # create-agentic-workspace
 
+> **New here?** Read the [Friendly Guide](docs/FRIENDLY-GUIDE.md) — a complete
+> walkthrough of what this kit is, what you need before starting, and a glossary of
+> every term. No technical background needed.
+
 ## TL;DR
 
 One command turns an empty folder into a project that AI coding agents know how to work
@@ -28,9 +32,10 @@ Scaffold a complete, **harness-agnostic agentic workspace** into any new project
 with Claude Code (Fable 5), OpenCode (Kimi K3 or any model), and every
 AGENTS.md-compatible tool.
 
-**New to AI coding agents?** Everything here is beginner-friendly: the scaffolder asks
-plain questions, and the generated project includes a `GETTING-STARTED.md` written for
-humans who have never used an agent before.
+**New to AI coding agents?** Everything here is beginner-friendly: start with the
+[Friendly Guide](docs/FRIENDLY-GUIDE.md), the scaffolder asks plain questions, and the
+generated project includes a `GETTING-STARTED.md` written for humans who have never
+used an agent before.
 
 ## Kickstart prompt (copy/paste into your agent chat)
 
