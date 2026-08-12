@@ -123,6 +123,40 @@ Inside your new project there's a file called `GETTING-STARTED.md` that explains
 everyday life with the workspace — the commands, the rhythm, the good habits. That's
 your companion from day two onward.
 
+## How the work is organized (the Scrum part)
+
+The kit organizes the work the way good software teams have for decades — a method
+called **Scrum**. Don't let the vocabulary scare you: it boils down to *working in
+small rounds and checking in regularly*, instead of one giant leap of faith. One round
+is called a **sprint**, the check-ins are called **ceremonies**, and in this kit every
+ceremony is a slash command you type in the chat. The loop looks like this:
+
+1. **Collect ideas** — `/backlog-refinement`. You brain-dump what you want in plain
+   words; the agent turns it into a tidy, ordered wish list (the *backlog*), most
+   valuable things on top.
+2. **Pick a goal** — `/sprint-planning`. Together you choose one small goal from the
+   top of the list. That starts a sprint.
+3. **Build** — you ask the agent to implement, item by item. Each working session,
+   `/standup` gives you a three-line check-in: what's done, what's next, what's stuck.
+4. **Inspect** — `/sprint-review`. The agent demonstrates what was built and you accept
+   or reject each piece. Only what genuinely works counts as finished — the written
+   checklist for "finished" (the *Definition of Done*) protects you from wishful
+   "almost done". Running the review is what ends the sprint.
+5. **Improve** — `/retrospective`. A short "what should we do differently next round?",
+   ending in one to three concrete changes. Then the loop starts again at step 1.
+
+A few things that surprise people, in a good way:
+
+- **Sprints end when the goal is done, not on a date.** With an AI agent doing the
+  building, a whole round can fit in one evening — or stretch over weeks. Both are fine.
+- **You never run the loop alone.** You only make the decisions: what to build, in what
+  order, and whether it's good enough. The agent runs the ceremonies, writes every
+  file, and keeps the paperwork in the `scrum/` folder honest.
+- **Your `/kickoff` session already ran a mini version of this loop** — idea, small
+  plan, first built piece. From your second session on, you use the loop directly.
+- **One habit ties it together:** end every session with `/memory-update`, so the next
+  session — even in a different AI tool — picks up exactly where this one stopped.
+
 ## Glossary
 
 The words you'll meet, in the order you'll meet them.
