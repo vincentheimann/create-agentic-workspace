@@ -157,6 +157,22 @@ A few things that surprise people, in a good way:
 - **One habit ties it together:** end every session with `/memory-update`, so the next
   session — even in a different AI tool — picks up exactly where this one stopped.
 
+**Where this all comes from.** Scrum is the most popular practice of a bigger idea
+called **Agile**, set down in 2001 by a group of software veterans as a one-page
+manifesto. It rests on four value pairs — in plain words:
+
+1. **People and conversations** matter more than processes and tools — the process
+   serves you, never the other way around.
+2. **Working results** matter more than piles of documentation — which is why your
+   very first session ends with something running.
+3. **Working together** matters more than negotiating specifications — you steer by
+   looking at real results and reacting, not by writing a perfect plan upfront.
+4. **Responding to change** matters more than following a plan — the wish list is
+   reordered every round, as you learn what actually matters.
+
+The original (it really is one page) lives at https://agilemanifesto.org — worth two
+minutes once the vocabulary here feels familiar.
+
 ## Glossary
 
 The words you'll meet, in the order you'll meet them.
@@ -198,8 +214,12 @@ The words you'll meet, in the order you'll meet them.
 
 **Around the way of working**
 
-- **Scrum** — a widely used way of organizing work into short, planned rounds with
-  regular check-ins. This kit uses a lightweight version of it.
+- **Agile** — the philosophy behind modern software work, written down in a 2001
+  manifesto (https://agilemanifesto.org): deliver working results in small steps,
+  learn from them, and adapt — rather than follow one big upfront plan.
+- **Scrum** — the most popular way of putting Agile into practice: work organized
+  into short, planned rounds with regular check-ins. This kit uses a lightweight
+  version of it.
 - **Sprint** — one such round: it starts with a plan, ends with a review. With AI
   agents a sprint can fit in a single evening.
 - **Backlog** — the ordered wish list of everything the project might do, most valuable
