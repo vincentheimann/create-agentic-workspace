@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.3](https://github.com/vincentheimann/create-agentic-workspace/compare/create-agentic-workspace-v0.4.2...create-agentic-workspace-v0.4.3) (2026-08-12)
+
+
+### Documentation
+
+* add Agile values and manifesto link to the Friendly Guide ([4b60047](https://github.com/vincentheimann/create-agentic-workspace/commit/4b60047e0e5e8e8648f323bf6b396eceb2bafd47))
+* add beginner Friendly Guide with prerequisites, glossary and free-tier path ([53f199a](https://github.com/vincentheimann/create-agentic-workspace/commit/53f199a62638ee7a72fe34fb16ff65d048ce4844))
+* explain the Scrum loop in the Friendly Guide ([b119cb0](https://github.com/vincentheimann/create-agentic-workspace/commit/b119cb0a70ed0ff9dd330ace30980e40db8cefda))
+
 ## [0.4.2](https://github.com/vincentheimann/create-agentic-workspace/compare/create-agentic-workspace-v0.4.1...create-agentic-workspace-v0.4.2) (2026-08-05)
 
 
